@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Inter", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-ink-950 text-slate-200 font-sans antialiased;
+    /* Deep gradient background: Dark Navy -> Blue -> Almost Black */
+    background-color: #050b1a;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(15, 76, 255, 0.25), transparent),
+      radial-gradient(ellipse 60% 50% at 100% 10%, rgba(0, 194, 255, 0.12), transparent),
+      radial-gradient(ellipse 60% 40% at 0% 30%, rgba(15, 76, 255, 0.12), transparent);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background: rgba(0, 194, 255, 0.3);
+    color: #fff;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #07132b;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(#0f4cff, #00c2ff);
+    border-radius: 999px;
+    border: 2px solid #07132b;
+  }
+}
+
+@layer components {
+  /* Frosted glass surface used across cards, navbar, tables */
+  .glass {
+    @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+  }
+  .glass-strong {
+    @apply border border-white/10 bg-white/[0.06] backdrop-blur-2xl;
+  }
+
+  /* Gradient text for headlines */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(90deg, #ffffff 0%, #b8d4ff 50%, #00c2ff 100%);
+  }
+  .text-gradient-brand {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(90deg, #0f4cff, #00c2ff);
+  }
+
+  /* Animated conic border for premium buttons/badges */
+  .glow-ring {
+    box-shadow: 0 0 0 1px rgba(0, 194, 255, 0.2), 0 20px 60px -20px rgba(15, 76, 255, 0.55);
+  }
+
+  .section {
+    @apply relative py-24 sm:py-28;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-cyan-200/80;
+  }
+
+  /* Subtle animated grid backdrop */
+  .bg-dots {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+}
+
+@layer utilities {
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent);
+    mask-image: linear-gradient(to bottom, black 60%, transparent);
+  }
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+}
