@@ -1,0 +1,11 @@
+# Netlify config for the ShareLynk public website.
+# The Next.js app lives in the web/ subfolder of this repo.
+
+[build]
+  base = "web"
+  command = "npm run build"
+
+# Official Next.js runtime — handles SSR/ISR, the /api/* proxy rewrites,
+# image optimization, and publishing automatically.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

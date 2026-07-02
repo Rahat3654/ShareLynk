@@ -6,7 +6,9 @@ export const site = {
   domain: "sharelynk.com",
   description:
     "ShareLynk is building the future of secure digital connectivity — securely share internet access, manage networks, and build smarter digital infrastructure.",
-  url: "https://sharelynk.com",
+  // Public canonical URL (used for OG/canonical/sitemap). Override per deploy
+  // with NEXT_PUBLIC_SITE_URL; falls back to the production domain.
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://sharelynk.com",
   // Replace with official ShareLynk logo
   logo: "/assets/logo/sharelynk-logo.png",
 };
