@@ -2,8 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  // Produces a minimal standalone server bundle for the Docker runtime stage.
-  output: "standalone",
+  // NOTE: no `output: "standalone"` — the Netlify Next.js runtime
+  // (@netlify/plugin-nextjs) manages the build output itself and is
+  // incompatible with standalone mode. Deploy to Netlify/Vercel as-is.
   images: {
     // Allow remote release/CDN assets if you later swap the placeholder logo
     // or serve screenshots from a CDN.

@@ -4,6 +4,10 @@
 [build]
   base = "web"
   command = "npm run build"
+  # publish is resolved RELATIVE TO `base`, so ".next" -> web/.next.
+  # Required: without it Netlify defaults publish to the base dir itself, which
+  # triggers "publish directory cannot be the same as the base directory".
+  publish = ".next"
 
 # Official Next.js runtime — handles SSR/ISR, the /api/* proxy rewrites,
 # image optimization, and publishing automatically.
