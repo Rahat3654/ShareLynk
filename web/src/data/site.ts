@@ -1,5 +1,15 @@
 // Central site content — real startup copy, no lorem ipsum.
 
+function normalizeSiteUrl(value: string | undefined, fallback: string): string {
+  if (!value) return fallback;
+  const candidate = value.includes("://") ? value : `https://${value}`;
+  try {
+    return new URL(candidate).toString().replace(/\/$/, "");
+  } catch {
+    return fallback;
+  }
+}
+
 export const site = {
   name: "ShareLynk",
   tagline: "Connect • Share • Empower",
@@ -7,8 +17,9 @@ export const site = {
   description:
     "ShareLynk is building the future of secure digital connectivity — securely share internet access, manage networks, and build smarter digital infrastructure.",
   // Public canonical URL (used for OG/canonical/sitemap). Override per deploy
-  // with NEXT_PUBLIC_SITE_URL; falls back to the production domain.
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://sharelynk.com",
+  // with NEXT_PUBLIC_SITE_URL; falls back to the production domain. Normalized
+  // so a value without a scheme (e.g. "sharelynk.app") doesn't crash `new URL()`.
+  url: normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL, "https://sharelynk.com"),
   // Replace with official ShareLynk logo
   logo: "/assets/logo/sharelynk-logo.png",
 };
