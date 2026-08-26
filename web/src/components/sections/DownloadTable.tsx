@@ -26,7 +26,7 @@ const statusStyles: Record<string, string> = {
 };
 
 const filterTabs: { id: string; label: string; os?: OsFamily }[] = [
-  { id: "all", label: "All Platforms" },
+  { id: "all", label: "সকল প্ল্যাটফর্ম" },
   { id: "windows", label: "Windows", os: "WINDOWS" },
   { id: "macos", label: "macOS", os: "MACOS" },
   { id: "android", label: "Android", os: "ANDROID" },
@@ -78,7 +78,7 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
             <div className="space-y-2.5">
               <div className="flex items-center gap-2">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-cyan/15 px-3 py-1 text-xs font-semibold text-brand-cyan border border-brand-cyan/30 whitespace-nowrap">
-                  <Sparkles className="h-3.5 w-3.5" /> Recommended for your device
+                  <Sparkles className="h-3.5 w-3.5" /> আপনার ডিভাইসের জন্য রেকমেন্ডেড
                 </span>
                 <span className="text-xs font-mono text-slate-400 whitespace-nowrap">
                   {recommendedPlatform.name} ({recommendedPlatform.arch})
@@ -86,11 +86,11 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
               </div>
               
               <h3 className="text-2xl font-bold text-white sm:text-3xl">
-                Download ShareLynk for {recommendedPlatform.name}
+                {recommendedPlatform.name} এর জন্য ShareLynk ডাউনলোড করুন
               </h3>
               
               <p className="text-sm text-slate-300 max-w-xl">
-                Official signed release (v{recommendedPlatform.latest.version}) • Fast E2E encrypted Wi-Fi sharing package.
+                অফিশিয়াল সিগনেচার করা রিলিজ (v{recommendedPlatform.latest.version}) • দ্রুত ও এনক্রিপ্টেড Wi-Fi শেয়ারিং প্যাকেজ।
               </p>
             </div>
 
@@ -101,7 +101,7 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
                 className="inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-brand-blue to-brand-cyan px-8 py-4 text-base font-semibold text-white shadow-glow hover:opacity-90 transition-all hover:scale-[1.02] whitespace-nowrap"
               >
                 {busy === recommendedPlatform.id ? <Check className="h-5 w-5" /> : <Download className="h-5 w-5" />}
-                <span>Download Now ({formatBytes(recommendedPlatform.latest.fileSizeBytes)})</span>
+                <span>এখনই ডাউনলোড করুন ({formatBytes(recommendedPlatform.latest.fileSizeBytes)})</span>
               </button>
             </div>
           </div>
@@ -129,7 +129,7 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
 
         <div className="text-xs font-medium text-slate-400 flex items-center gap-2 whitespace-nowrap px-2">
           <Filter className="h-4 w-4 text-brand-cyan" />
-          Showing {filteredPlatforms.length} platform builds
+          মোট {filteredPlatforms.length}টি প্ল্যাটফর্ম বিল্ড
         </div>
       </div>
 
@@ -137,12 +137,12 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
       <div className="rounded-[2.5rem] border border-white/10 bg-slate-950/80 shadow-2xl backdrop-blur-2xl overflow-hidden">
         <div className="min-w-[880px]">
           {/* Table Header Row */}
-          <div className="grid grid-cols-[minmax(280px,2.4fr)_minmax(110px,1fr)_minmax(220px,1.7fr)_minmax(100px,1fr)_minmax(170px,auto)] gap-6 px-8 py-5 text-xs font-semibold uppercase tracking-widest text-slate-400 border-b border-white/10 items-center">
-            <span className="text-left">Platform</span>
-            <span className="text-left">Version</span>
-            <span className="text-left">Architecture</span>
-            <span className="text-left">Size</span>
-            <span className="text-right">Download</span>
+          <div className="grid grid-cols-[minmax(280px,2.4fr)_minmax(110px,1fr)_minmax(220px,1.7fr)_minmax(100px,1fr)_minmax(170px,auto)] gap-6 px-8 py-5 text-xs font-semibold uppercase tracking-wider text-slate-400 border-b border-white/10 items-center">
+            <span className="text-left">প্ল্যাটফর্ম</span>
+            <span className="text-left">ভার্সন</span>
+            <span className="text-left">আর্কিটেকচার</span>
+            <span className="text-left">সাইজ</span>
+            <span className="text-right">ডাউনলোড</span>
           </div>
 
           {/* Table Rows */}
@@ -172,7 +172,7 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
                         <span className="font-bold text-white text-base whitespace-nowrap tracking-tight">{p.name}</span>
                         {isRec && (
                           <span className="whitespace-nowrap rounded-full bg-brand-cyan/20 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand-cyan ring-1 ring-brand-cyan/40">
-                            Your Device
+                            আপনার ডিভাইস
                           </span>
                         )}
                         {rel && (
@@ -182,7 +182,7 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
                         )}
                       </div>
                       <span className="text-xs text-slate-400 mt-1 whitespace-nowrap font-normal">
-                        {p.isComingSoon ? "In Active Development" : `Released ${formatDate(rel!.releaseDate)}`}
+                        {p.isComingSoon ? "ডেভেলপমেন্ট চলছে" : `রিলিজ: ${formatDate(rel!.releaseDate)}`}
                       </span>
                     </div>
                   </div>
@@ -212,7 +212,7 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
                   <div className="flex items-center justify-end text-right">
                     {p.isComingSoon ? (
                       <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 text-xs font-medium text-slate-400 whitespace-nowrap">
-                        <Clock className="h-4 w-4" /> Coming Soon
+                        <Clock className="h-4 w-4" /> শীঘ্রই আসছে
                       </span>
                     ) : (
                       <button
@@ -224,7 +224,7 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
                         )}
                       >
                         {busy === p.id ? <Check className="h-4 w-4" /> : <Download className="h-4 w-4" />}
-                        <span>Download .{p.extension}</span>
+                        <span>ডাউনলোড .{p.extension}</span>
                       </button>
                     )}
                   </div>
@@ -239,7 +239,7 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
       <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-400">
         <div className="flex items-center gap-2.5">
           <ShieldCheck className="h-5 w-5 text-emerald-400 shrink-0" />
-          <span>All packages are <strong>100% Virus & Malware Free</strong> and cryptographically signed.</span>
+          <span>সবগুলো ইনস্টলার <strong>১০০% ভাইরাস ও মলওয়্যারমুক্ত</strong> এবং ক্রিপ্টোগ্রাফিক সিগনেচারে সুরক্ষিত।</span>
         </div>
         <div className="flex items-center gap-4 text-slate-500 font-mono text-[11px] whitespace-nowrap">
           <span>E2E ENCRYPTED</span>

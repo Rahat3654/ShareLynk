@@ -17,6 +17,7 @@ import {
   Globe
 } from "lucide-react";
 import { GlobeIllustration } from "./GlobeIllustration";
+import { HeroBackgroundSlider } from "./HeroBackgroundSlider";
 
 export function HeroVisual() {
   const [activeTab, setActiveTab] = useState<"dashboard" | "globe">("dashboard");
@@ -24,6 +25,9 @@ export function HeroVisual() {
 
   return (
     <div className="relative mx-auto w-full max-w-[620px]">
+      {/* Continuous Sliding Image Background Layer (Behind the Mockup Window) */}
+      <HeroBackgroundSlider />
+
       {/* Ambient background glows */}
       <div className="absolute -inset-4 -z-10 rounded-3xl bg-gradient-to-r from-brand-blue/30 via-brand-cyan/20 to-indigo-600/30 blur-3xl opacity-70 animate-pulse-glow" />
       <div className="absolute -top-10 -right-10 -z-10 h-64 w-64 rounded-full bg-cyan-500/20 blur-3xl" />
@@ -32,7 +36,7 @@ export function HeroVisual() {
       <div className="mb-4 flex items-center justify-between rounded-full border border-white/10 bg-slate-900/60 p-1.5 backdrop-blur-xl">
         <div className="flex items-center gap-1.5 px-3 text-xs text-slate-400 font-medium">
           <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-          <span>Interactive Preview</span>
+          <span>লাইভ প্রিভিউ</span>
         </div>
         <div className="flex items-center gap-1 bg-white/[0.04] p-1 rounded-full border border-white/5">
           <button
@@ -44,7 +48,7 @@ export function HeroVisual() {
             }`}
           >
             <Laptop className="h-3.5 w-3.5" />
-            App Dashboard
+            অ্যাপ ড্যাশবোর্ড
           </button>
           <button
             onClick={() => setActiveTab("globe")}
@@ -55,7 +59,7 @@ export function HeroVisual() {
             }`}
           >
             <Globe className="h-3.5 w-3.5" />
-            Global Network
+            গ্লোবাল নেটওয়ার্ক
           </button>
         </div>
       </div>
@@ -106,7 +110,7 @@ export function HeroVisual() {
                 <div>
                   <div className="flex items-center gap-2">
                     <h4 className="text-sm font-semibold text-white">
-                      {sharingActive ? "ShareLynk Hub #042 (Active)" : "Wi-Fi Sharing Paused"}
+                      {sharingActive ? "ShareLynk Hub #042 (সক্রিয়)" : "Wi-Fi শেয়ারিং বন্ধ"}
                     </h4>
                     <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-white/10 text-slate-300">
                       5 GHz
@@ -114,7 +118,7 @@ export function HeroVisual() {
                   </div>
                   <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-1">
                     <ShieldCheck className="h-3.5 w-3.5 text-cyan-400" />
-                    Secure Session Key: <code className="text-cyan-300 font-mono">SL-89F2-DHAKA</code>
+                    সেশন কি: <code className="text-cyan-300 font-mono">SL-89F2-DHAKA</code>
                   </p>
                 </div>
               </div>
@@ -129,11 +133,11 @@ export function HeroVisual() {
               >
                 {sharingActive ? (
                   <>
-                    <Pause className="h-3.5 w-3.5" /> Stop Sharing
+                    <Pause className="h-3.5 w-3.5" /> শেয়ারিং বন্ধ করুন
                   </>
                 ) : (
                   <>
-                    <Play className="h-3.5 w-3.5" /> Start Sharing
+                    <Play className="h-3.5 w-3.5" /> শেয়ারিং চালু করুন
                   </>
                 )}
               </button>
@@ -143,7 +147,7 @@ export function HeroVisual() {
             <div className="grid grid-cols-3 gap-3">
               <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
                 <div className="flex items-center justify-between text-slate-400">
-                  <span className="text-[11px] font-medium uppercase tracking-wider">Connected</span>
+                  <span className="text-[11px] font-medium tracking-wide">কানেক্টেড</span>
                   <Users className="h-3.5 w-3.5 text-brand-cyan" />
                 </div>
                 <div className="mt-2 flex items-baseline gap-1">
@@ -154,7 +158,7 @@ export function HeroVisual() {
 
               <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
                 <div className="flex items-center justify-between text-slate-400">
-                  <span className="text-[11px] font-medium uppercase tracking-wider">Download Speed</span>
+                  <span className="text-[11px] font-medium tracking-wide">ডাউনলোড স্পিড</span>
                   <Activity className="h-3.5 w-3.5 text-emerald-400" />
                 </div>
                 <div className="mt-2 flex items-baseline gap-1">
@@ -165,7 +169,7 @@ export function HeroVisual() {
 
               <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
                 <div className="flex items-center justify-between text-slate-400">
-                  <span className="text-[11px] font-medium uppercase tracking-wider">Session Data</span>
+                  <span className="text-[11px] font-medium tracking-wide">সেশন ডাটা</span>
                   <Zap className="h-3.5 w-3.5 text-amber-400" />
                 </div>
                 <div className="mt-2 flex items-baseline gap-1">
@@ -179,10 +183,10 @@ export function HeroVisual() {
             <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3.5">
               <div className="flex items-center justify-between mb-2.5">
                 <span className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-                  <Lock className="h-3.5 w-3.5 text-brand-cyan" /> Active Authorized Devices
+                  <Lock className="h-3.5 w-3.5 text-brand-cyan" /> সক্রিয় অনুমোদিত ডিভাইসসমূহ
                 </span>
                 <span className="text-[10px] text-cyan-400 hover:underline cursor-pointer">
-                  Manage Access Controls →
+                  অ্যাক্সেস কন্ট্রোল →
                 </span>
               </div>
 
@@ -203,7 +207,7 @@ export function HeroVisual() {
                     <div className="flex items-center gap-3">
                       <span className="font-mono text-[11px] text-emerald-400">{device.speed}</span>
                       <button className="rounded px-2 py-0.5 text-[10px] font-medium bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/20">
-                        Revoke
+                        রিমুভ
                       </button>
                     </div>
                   </div>
@@ -220,8 +224,8 @@ export function HeroVisual() {
           <ShieldCheck className="h-5 w-5" />
         </div>
         <div>
-          <div className="text-xs font-semibold text-white">End-to-End Encrypted</div>
-          <div className="text-[10px] text-slate-400">Zero plain-text password sharing</div>
+          <div className="text-xs font-semibold text-white">এন্ড-টু-এন্ড এনক্রিপ্টেড</div>
+          <div className="text-[10px] text-slate-400">সম্পূর্ণ নিরাপদ পাসওয়ার্ড সুরক্ষা</div>
         </div>
       </div>
     </div>

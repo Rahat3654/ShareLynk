@@ -58,19 +58,19 @@ export function Navbar() {
           </div>
 
           <div className="hidden items-center gap-2 lg:flex">
-            <Button href="/downloads" variant="ghost" size="sm">
-              Documentation
+            <Button href="/#features" variant="ghost" size="sm">
+              ডকুমেন্টেশন
             </Button>
             <Button href="/downloads" size="sm">
               <Download className="h-4 w-4" />
-              Download
+              ডাউনলোড
             </Button>
           </div>
 
           <button
             className="grid h-10 w-10 place-items-center rounded-xl text-white lg:hidden"
             onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "Close menu" : "Open menu"}
+            aria-label={open ? "মেসেজ বন্ধ করুন" : "মেনু খুলুন"}
             aria-expanded={open}
           >
             {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -94,11 +94,11 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="mt-3 grid grid-cols-2 gap-2">
-                <Button href="/downloads" variant="secondary" size="md" onClick={() => setOpen(false)}>
-                  Docs
+                <Button href="/#features" variant="secondary" size="md" onClick={() => setOpen(false)}>
+                  ডকুমেন্টেশন
                 </Button>
                 <Button href="/downloads" size="md" onClick={() => setOpen(false)}>
-                  <Download className="h-4 w-4" /> Download
+                  <Download className="h-4 w-4" /> ডাউনলোড
                 </Button>
               </div>
             </div>

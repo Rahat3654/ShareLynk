@@ -5,10 +5,14 @@ import { roadmap } from "@/data/site";
 import { cn } from "@/lib/utils";
 
 const statusMeta: Record<string, { icon: React.ComponentType<{ className?: string }>; color: string; label: string }> = {
-  Shipped: { icon: CheckCircle2, color: "text-emerald-400", label: "Shipped" },
-  "In Progress": { icon: Loader2, color: "text-brand-cyan", label: "In Progress" },
-  Next: { icon: Circle, color: "text-amber-300", label: "Next" },
-  Planned: { icon: Circle, color: "text-slate-500", label: "Planned" },
+  Shipped: { icon: CheckCircle2, color: "text-emerald-400", label: "সম্পন্ন" },
+  সম্পন্ন: { icon: CheckCircle2, color: "text-emerald-400", label: "সম্পন্ন" },
+  "In Progress": { icon: Loader2, color: "text-brand-cyan", label: "চলমান" },
+  চলমান: { icon: Loader2, color: "text-brand-cyan", label: "চলমান" },
+  Next: { icon: Circle, color: "text-amber-300", label: "পরবর্তী" },
+  পরবর্তী: { icon: Circle, color: "text-amber-300", label: "পরবর্তী" },
+  Planned: { icon: Circle, color: "text-slate-500", label: "পরিকল্পিত" },
+  পরিকল্পিত: { icon: Circle, color: "text-slate-500", label: "পরিকল্পিত" },
 };
 
 export function Roadmap() {
@@ -16,13 +20,13 @@ export function Roadmap() {
     <section id="roadmap" className="section scroll-mt-24">
       <div className="container">
         <SectionHeading
-          eyebrow="Roadmap"
+          eyebrow="রোডম্যাপ"
           title={
             <>
-              The road to <span className="text-gradient">worldwide connectivity</span>
+              বিশ্বস্ত নেটওয়ার্ক তৈরির <span className="text-gradient">ভবিষ্যৎ পরিকল্পনা</span>
             </>
           }
-          description="A clear, honest path from our campus roots to a global platform — here's where we are and where we're headed."
+          description="ক্যাম্পাসের আইডিয়া থেকে শুরু করে আধুনিক ডিজিটাল কানেক্টিভিটি প্ল্যাটফর্ম গড়ার স্পষ্ট লক্ষ্যমাত্রাসমূহ।"
         />
 
         <div className="relative mt-16">

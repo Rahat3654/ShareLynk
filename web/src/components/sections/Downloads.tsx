@@ -21,13 +21,13 @@ export async function Downloads() {
     <section id="downloads" className="section scroll-mt-24">
       <div className="container">
         <SectionHeading
-          eyebrow="Downloads"
+          eyebrow="ডাউনলোড"
           title={
             <>
-              Get ShareLynk for <span className="text-gradient">every platform</span>
+              আপনার ডিভাইসের জন্য <span className="text-gradient">ShareLynk অ্যাপ নিন</span>
             </>
           }
-          description="Pick your operating system and start sharing securely in minutes. Every build is signed, versioned, and served from our global release network."
+          description="নিচের তালিকা থেকে আপনার অপারেটিং সিস্টেম নির্বাচন করে অফিশিয়াল ভেরিফাইড ইনস্টলারটি সহজে ডাউনলোড করে নিন।"
         />
         <DownloadTable platforms={platforms} />
       </div>

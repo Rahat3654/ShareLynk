@@ -9,25 +9,25 @@ import { contact } from "@/data/site";
 const cards = [
   {
     icon: Mail,
-    title: "Email us",
+    title: "ইমেইল করুন",
     lines: contact.emails,
     hrefs: contact.emails.map((e) => `mailto:${e}`),
   },
   {
     icon: Phone,
-    title: "Call us",
+    title: "ফোন করুন",
     lines: [contact.phone],
     hrefs: [`tel:${contact.phone.replace(/\s/g, "")}`],
   },
   {
     icon: MessageSquare,
-    title: "WhatsApp",
+    title: "হোয়াটসঅ্যাপ (WhatsApp)",
     lines: [contact.whatsapp],
     hrefs: [`https://wa.me/${contact.whatsapp.replace(/[^\d]/g, "")}`],
   },
   {
     icon: MapPin,
-    title: "Visit us",
+    title: "আমাদের অফিস",
     lines: [contact.office.line1, contact.office.line2],
     hrefs: [],
   },
@@ -61,13 +61,13 @@ export function Contact() {
     <section id="contact" className="section scroll-mt-24">
       <div className="container">
         <SectionHeading
-          eyebrow="Contact"
+          eyebrow="যোগাযোগ"
           title={
             <>
-              Let&apos;s build something <span className="text-gradient">connected</span>
+              সরাসরি কথা বলুন <span className="text-gradient">আমাদের টিমের সাথে</span>
             </>
           }
-          description="Questions, partnerships, or enterprise deployments — our team in Dhaka is ready to help."
+          description="যেকোনো তথ্য, সহায়তা বা পার্টনারশিপের জন্য নিচের ফর্মে বার্তা পাঠাতে পারেন।"
         />
 
         <div className="mt-16 grid gap-8 lg:grid-cols-2">
@@ -101,21 +101,21 @@ export function Contact() {
             <form onSubmit={submit} className="glass rounded-3xl p-6 sm:p-8">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1.5 block text-sm text-slate-300">Name</label>
-                  <input name="name" required placeholder="Your name" className={inputCls} />
+                  <label className="mb-1.5 block text-sm text-slate-300">আপনার নাম</label>
+                  <input name="name" required placeholder="নাম লিখুন" className={inputCls} />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-sm text-slate-300">Email</label>
-                  <input name="email" type="email" required placeholder="you@company.com" className={inputCls} />
+                  <label className="mb-1.5 block text-sm text-slate-300">ইমেইল ঠিকানা</label>
+                  <input name="email" type="email" required placeholder="আপনার ইমেইল..." className={inputCls} />
                 </div>
               </div>
               <div className="mt-4">
-                <label className="mb-1.5 block text-sm text-slate-300">Subject</label>
-                <input name="subject" placeholder="How can we help?" className={inputCls} />
+                <label className="mb-1.5 block text-sm text-slate-300">বিষয়</label>
+                <input name="subject" placeholder="কী বিষয়ে জানতে চান?" className={inputCls} />
               </div>
               <div className="mt-4">
-                <label className="mb-1.5 block text-sm text-slate-300">Message</label>
-                <textarea name="message" required rows={4} placeholder="Tell us about your project or question…" className={inputCls} />
+                <label className="mb-1.5 block text-sm text-slate-300">বার্তা</label>
+                <textarea name="message" required rows={4} placeholder="আপনার বার্তা বিস্তারিত লিখুন..." className={inputCls} />
               </div>
               <button
                 type="submit"
@@ -125,16 +125,16 @@ export function Contact() {
                 {state === "loading" ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
                 ) : state === "done" ? (
-                  <><Check className="h-5 w-5" /> Message sent</>
+                  <><Check className="h-5 w-5" /> মেসেজ পাঠানো হয়েছে</>
                 ) : (
-                  <><Send className="h-4 w-4" /> Send message</>
+                  <><Send className="h-4 w-4" /> মেসেজ পাঠান</>
                 )}
               </button>
               {state === "done" && (
-                <p className="mt-3 text-center text-sm text-emerald-300">Thanks! We&apos;ll get back to you shortly.</p>
+                <p className="mt-3 text-center text-sm text-emerald-300">ধন্যবাদ! আপনার মেসেজ আমরা পেয়েছি। খুব দ্রুতই উত্তর দেব।</p>
               )}
               {state === "error" && (
-                <p className="mt-3 text-center text-sm text-amber-300">Couldn&apos;t send. Please try again.</p>
+                <p className="mt-3 text-center text-sm text-amber-300">মেসেজ পাঠানো সম্ভব হয়নি। অনুগ্রহ করে আবার চেষ্টা করুন।</p>
               )}
             </form>
           </Reveal>

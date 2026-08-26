@@ -14,13 +14,13 @@ export function Faq() {
     <section id="faq" className="section scroll-mt-24">
       <div className="container">
         <SectionHeading
-          eyebrow="FAQ"
+          eyebrow="প্রশ্নোত্তর (FAQ)"
           title={
             <>
-              Frequently asked <span className="text-gradient">questions</span>
+              সাধারণ কিছু <span className="text-gradient">জিজ্ঞাসা ও উত্তর</span>
             </>
           }
-          description="Everything you need to know about ShareLynk. Can't find an answer? Reach out to our team below."
+          description="ShareLynk সম্পর্কে আপনার জানার বিষয়সমূহ। প্রয়োজনীয় তথ্য না পেলে নিচের যোগাযোগের ফর্মে মেসেজ দিন।"
         />
 
         <div className="mx-auto mt-14 max-w-3xl divide-y divide-white/10 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]">
