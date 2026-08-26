@@ -58,10 +58,10 @@ export function Navbar() {
           </div>
 
           <div className="hidden items-center gap-2 lg:flex">
-            <Button href="/#downloads" variant="ghost" size="sm">
+            <Button href="/downloads" variant="ghost" size="sm">
               Documentation
             </Button>
-            <Button href="/#downloads" size="sm">
+            <Button href="/downloads" size="sm">
               <Download className="h-4 w-4" />
               Download
             </Button>
@@ -94,10 +94,10 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="mt-3 grid grid-cols-2 gap-2">
-                <Button href="/#downloads" variant="secondary" size="md" onClick={() => setOpen(false)}>
+                <Button href="/downloads" variant="secondary" size="md" onClick={() => setOpen(false)}>
                   Docs
                 </Button>
-                <Button href="/#downloads" size="md" onClick={() => setOpen(false)}>
+                <Button href="/downloads" size="md" onClick={() => setOpen(false)}>
                   <Download className="h-4 w-4" /> Download
                 </Button>
               </div>

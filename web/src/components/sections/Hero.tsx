@@ -82,7 +82,7 @@ export function Hero() {
             {/* Smart OS Auto-Detected CTA Button Box */}
             <motion.div variants={item} className="mt-8 space-y-3">
               <div className="flex flex-wrap items-center gap-3">
-                <Button href={`/#downloads`} size="lg" className="px-6 py-4 shadow-lg shadow-brand-blue/25">
+                <Button href="/downloads" size="lg" className="px-6 py-4 shadow-lg shadow-brand-blue/25">
                   <OSIcon className="h-5 w-5 text-cyan-200" />
                   <span>Download for {detectedOS.name}</span>
                   <span className="ml-1 rounded-full bg-white/20 px-2 py-0.5 text-xs font-mono">
@@ -90,7 +90,7 @@ export function Hero() {
                   </span>
                 </Button>
                 
-                <Button href="/#downloads" variant="secondary" size="lg">
+                <Button href="/downloads" variant="secondary" size="lg">
                   <BookOpen className="h-4 w-4" />
                   All Platforms & Docs
                 </Button>
