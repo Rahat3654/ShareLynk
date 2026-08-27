@@ -31,7 +31,7 @@ export default function TermsPage() {
         permitted by law, ShareLynk is not liable for indirect or consequential damages.
       </p>
       <h2>Contact</h2>
-      <p>Questions about these Terms? Email legal@sharelynk.com.</p>
+      <p>Questions about these Terms? Email legal@sharelynk.app.</p>
     </LegalPage>
   );
 }

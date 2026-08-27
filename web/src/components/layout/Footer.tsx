@@ -11,30 +11,31 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 const columns = [
   {
-    title: "Product",
+    title: "প্রোডাক্ট",
     links: [
-      { label: "Downloads", href: "/#downloads" },
-      { label: "Features", href: "/#features" },
-      { label: "Roadmap", href: "/#roadmap" },
-      { label: "Documentation", href: "/#downloads" },
+      { label: "ডাউনলোড", href: "/downloads" },
+      { label: "ফিচারসমূহ", href: "/#features" },
+      { label: "রোডম্যাপ", href: "/#roadmap" },
+      { label: "ডকুমেন্টেশন", href: "/#features" },
     ],
   },
   {
-    title: "Company",
+    title: "কোম্পানি",
     links: [
-      { label: "About", href: "/#about" },
-      { label: "Contact", href: "/#contact" },
-      { label: "Support", href: "mailto:support@sharelynk.com" },
-      { label: "GitHub", href: "https://github.com/sharelynk" },
+      { label: "আমাদের কথা", href: "/#about" },
+      { label: "যোগাযোগ", href: "/#contact" },
+      { label: "টিম", href: "/team" },
+      { label: "সাপোর্ট", href: "mailto:support@sharelynk.app" },
+      { label: "গিটহাব (GitHub)", href: "https://github.com/sharelynk" },
     ],
   },
   {
-    title: "Legal",
+    title: "লিগ্যাল ও নীতি",
     links: [
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
-      { label: "Security", href: "/#faq" },
-      { label: "FAQ", href: "/#faq" },
+      { label: "প্রাইভেসি পলিসি", href: "/privacy" },
+      { label: "টার্মস অব সার্ভিস", href: "/terms" },
+      { label: "সিকিউরিটি", href: "/#faq" },
+      { label: "প্রশ্নোত্তর (FAQ)", href: "/#faq" },
     ],
   },
 ];
@@ -91,10 +92,10 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
           <p className="text-sm text-slate-500">
-            © {new Date().getFullYear()} {site.name}. All rights reserved.
+            © {new Date().getFullYear()} {site.name}। সর্বস্বত্ব সংরক্ষিত।
           </p>
           <p className="text-sm text-slate-500">
-            {site.tagline} · Built with care in Dhaka, Bangladesh 🇧🇩
+            {site.tagline} · ঢাকা, বাংলাদেশ থেকে তৈরি 🇧🇩
           </p>
         </div>
       </div>

@@ -3,19 +3,21 @@
 @tailwind utilities;
 
 :root {
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-display: "Inter", system-ui, sans-serif;
+  --font-sans: var(--font-sans-bengali), var(--font-sans-english), "Noto Sans Bengali", "Inter", system-ui, sans-serif;
+  --font-display: var(--font-display-bengali), var(--font-sans-bengali), var(--font-sans-english), "Anek Bangla", "Noto Sans Bengali", system-ui, sans-serif;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
   body {
-    @apply bg-ink-950 text-slate-200 font-sans antialiased;
+    @apply bg-ink-950 text-slate-200 font-sans antialiased leading-relaxed tracking-normal;
     /* Deep gradient background: Dark Navy -> Blue -> Almost Black */
     background-color: #050b1a;
     background-image:
@@ -23,6 +25,12 @@
       radial-gradient(ellipse 60% 50% at 100% 10%, rgba(0, 194, 255, 0.12), transparent),
       radial-gradient(ellipse 60% 40% at 0% 30%, rgba(15, 76, 255, 0.12), transparent);
     background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: 0.01em;
+    line-height: 1.28;
   }
 
   ::selection {
@@ -74,7 +82,7 @@
   }
 
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-cyan-200/80;
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-medium uppercase tracking-wider text-cyan-200/80;
   }
 
   /* Subtle animated grid backdrop */
@@ -94,5 +102,33 @@
   }
   .animation-delay-4000 {
     animation-delay: 4s;
+  }
+
+  .animate-hero-slide {
+    animation: hero-slide-left 35s linear infinite;
+    will-change: transform;
+  }
+}
+
+@keyframes hero-slide-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    /* Two copies joined by `gap-4` (1rem): a flat -50% lands half a gap short
+       and the marquee jumps on every cycle. */
+    transform: translateX(calc(-50% - 0.5rem));
+  }
+}
+
+/* Respect the OS "reduce motion" setting for the long-running decorative loops. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-slide,
+  .animate-float,
+  .animate-spin-slow,
+  .animate-pulse-glow,
+  .animate-gradient-x,
+  .animate-shimmer {
+    animation: none !important;
   }
 }

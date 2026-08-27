@@ -9,36 +9,25 @@ import { site } from "@/data/site";
 // footer, hero, login, favicon). Do not recreate the logo in code.
 export function Logo({
   className,
-  showWordmark = true,
-  size = 34,
+  size = 36,
   href = "/",
 }: {
   className?: string;
-  showWordmark?: boolean;
   size?: number;
   href?: string | null;
 }) {
   const content = (
-    <span className={cn("group inline-flex items-center gap-2.5", className)}>
-      <span
-        className="relative grid place-items-center rounded-xl bg-white/[0.04] p-1.5 ring-1 ring-white/10 transition-transform duration-300 group-hover:scale-105"
-        style={{ width: size + 12, height: size + 12 }}
-      >
-        {/* Replace with official ShareLynk logo */}
+    <span className={cn("group inline-flex items-center", className)}>
+      <span className="relative flex items-center justify-center rounded-xl bg-white/95 px-3 py-1.5 shadow-md ring-1 ring-white/20 transition-all duration-300 group-hover:scale-105 group-hover:bg-white">
         <Image
           src={site.logo}
           alt="ShareLynk logo"
-          width={size}
-          height={size}
+          width={160}
+          height={40}
           priority
-          className="object-contain"
+          className="h-7 w-auto object-contain"
         />
       </span>
-      {showWordmark && (
-        <span className="text-lg font-semibold tracking-tight text-white">
-          Share<span className="text-brand-cyan">Lynk</span>
-        </span>
-      )}
     </span>
   );
 

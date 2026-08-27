@@ -1,0 +1,226 @@
+/* React Bits ChromaGrid Styles — High-Legibility & Vibrant ShareLynk Theme */
+
+.chroma-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 1.5rem 0;
+}
+
+/* Continuous sliding track */
+.chroma-slider-track {
+  display: flex;
+  gap: 1.5rem;
+  width: max-content;
+  animation: chroma-slide-left 40s linear infinite;
+  will-change: transform;
+}
+
+.chroma-container:hover .chroma-slider-track,
+.chroma-container:focus-within .chroma-slider-track {
+  animation-play-state: paused;
+}
+
+@keyframes chroma-slide-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(calc(-50% - 0.75rem));
+  }
+}
+
+.chroma-grid {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 1.5rem;
+  box-sizing: border-box;
+}
+
+.chroma-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  min-width: 320px;
+  height: auto;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 194, 255, 0.25);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  background: var(--card-gradient, linear-gradient(160deg, rgba(15, 35, 75, 0.92) 0%, rgba(7, 18, 42, 0.96) 60%, rgba(5, 11, 26, 0.98) 100%));
+  box-shadow: 0 12px 35px -8px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --spotlight-color: rgba(0, 194, 255, 0.35);
+}
+
+.chroma-card:hover {
+  border-color: var(--card-border, #00c2ff);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px -10px rgba(0, 194, 255, 0.45);
+}
+
+.chroma-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+
+.chroma-card:hover::before {
+  opacity: 1;
+}
+
+.chroma-img-wrapper {
+  position: relative;
+  z-index: 1;
+  padding: 14px;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+.chroma-img-wrapper img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.chroma-info {
+  position: relative;
+  z-index: 1;
+  padding: 1rem 1.25rem 1.25rem;
+  color: #ffffff;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.chroma-info .name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.chroma-info .name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.chroma-info .handle {
+  color: #38bdf8;
+  font-size: 0.78rem;
+  font-family: monospace;
+  background: rgba(0, 194, 255, 0.18);
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 194, 255, 0.4);
+  font-weight: 600;
+}
+
+.chroma-info .role {
+  color: #38bdf8;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.chroma-info .institution {
+  color: #e2e8f0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.chroma-info .contributions-list {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.chroma-info .contribution-item {
+  font-size: 0.78rem;
+  color: #f1f5f9;
+  font-weight: 400;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  line-height: 1.45;
+}
+
+.chroma-info .skills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+}
+
+.chroma-info .skill-tag {
+  font-size: 0.72rem;
+  font-family: monospace;
+  color: #e2e8f0;
+  background: rgba(0, 194, 255, 0.12);
+  border: 1px solid rgba(0, 194, 255, 0.3);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 500;
+}
+
+/* Initials tile shown when a member has no local avatar yet. */
+.chroma-avatar-fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 220px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: linear-gradient(145deg, rgba(15, 76, 255, 0.35), rgba(5, 11, 26, 0.95));
+  color: #e2e8f0;
+  font-size: 3.25rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chroma-slider-track {
+    animation: none;
+  }
+
+  .chroma-container {
+    overflow-x: auto;
+  }
+
+  .chroma-card {
+    transition: none;
+  }
+
+  .chroma-card:hover {
+    transform: none;
+  }
+}

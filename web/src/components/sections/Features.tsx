@@ -9,13 +9,13 @@ export function Features() {
       <div className="pointer-events-none absolute inset-x-0 top-1/3 -z-10 h-64 bg-grid-glow" />
       <div className="container">
         <SectionHeading
-          eyebrow="Features"
+          eyebrow="ফিচারসমূহ"
           title={
             <>
-              Everything you need to <span className="text-gradient">share smarter</span>
+              স্মার্ট ও নিরাপদ শেয়ারিংয়ের <span className="text-gradient">প্রয়োজনীয় সব সুবিধা</span>
             </>
           }
-          description="A complete connectivity platform — secure by design, effortless to operate, and ready to scale from a single room to the entire globe."
+          description="নিরাপদ ডিজাইন, সহজ নেভিগেশন ও শক্তিশালী নেটওয়ার্ক কন্ট্রোল নিয়ে তৈরি একটি পূর্ণাঙ্গ ডিজিটাল কানেক্টিভিটি প্ল্যাটফর্ম।"
         />
 
         <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
