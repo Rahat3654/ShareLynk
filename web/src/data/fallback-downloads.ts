@@ -8,7 +8,7 @@ const MB = 1024 * 1024;
 const V = "2.3.1";
 const date = "2026-06-18T10:00:00Z";
 const url = (slug: string, ext: string) =>
-  `https://downloads.sharelynk.com/${slug}/sharelynk-${V}.${ext}`;
+  `https://downloads.sharelynk.app/${slug}/sharelynk-${V}.${ext}`;
 
 const dummyHashes: Record<string, string> = {
   android: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",

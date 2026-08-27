@@ -25,7 +25,7 @@ const columns = [
       { label: "আমাদের কথা", href: "/#about" },
       { label: "যোগাযোগ", href: "/#contact" },
       { label: "টিম", href: "/team" },
-      { label: "সাপোর্ট", href: "mailto:support@sharelynk.com" },
+      { label: "সাপোর্ট", href: "mailto:support@sharelynk.app" },
       { label: "গিটহাব (GitHub)", href: "https://github.com/sharelynk" },
     ],
   },

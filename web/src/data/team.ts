@@ -29,7 +29,7 @@ export const leadership: TeamMember = {
   socials: {
     linkedin: "https://linkedin.com",
     github: "https://github.com",
-    email: "advisor@sharelynk.com",
+    email: "advisor@sharelynk.app",
   },
 };
 

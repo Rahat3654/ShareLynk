@@ -3,12 +3,12 @@
 export const site = {
   name: "ShareLynk",
   tagline: "সহজ কানেক্টিভিটি • নিরাপদ শেয়ারিং • স্মার্ট সুবিধা",
-  domain: "sharelynk.com",
+  domain: "sharelynk.app",
   description:
     "ShareLynk দিয়ে নিরাপদে ইন্টারনেট শেয়ার করুন, নেটওয়ার্ক ম্যানেজ করুন এবং স্মার্ট কানেক্টিভিটি সুবিধা উপভোগ করুন।",
   // Public canonical URL (used for OG/canonical/sitemap). Override per deploy
   // with NEXT_PUBLIC_SITE_URL; falls back to the production domain.
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://sharelynk.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://sharelynk.app",
   // Replace with official ShareLynk logo
   logo: "/assets/logo/sharelynk-logo.png",
 };
@@ -140,7 +140,7 @@ export const stats = [
 ];
 
 export const contact = {
-  emails: ["contact@sharelynk.com", "support@sharelynk.com"],
+  emails: ["contact@sharelynk.app", "support@sharelynk.app"],
   phone: "+880 1XXX-XXXXXX",
   whatsapp: "+880 1XXX-XXXXXX",
   office: { line1: "ঢাকা বিশ্ববিদ্যালয়", line2: "ঢাকা ১০০০, বাংলাদেশ" },

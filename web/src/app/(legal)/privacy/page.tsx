@@ -29,10 +29,10 @@ export default function PrivacyPage() {
       <h2>Your rights</h2>
       <p>
         You may request access to, correction of, or deletion of your personal data by contacting
-        privacy@sharelynk.com.
+        privacy@sharelynk.app.
       </p>
       <h2>Contact</h2>
-      <p>Questions? Email us at contact@sharelynk.com.</p>
+      <p>Questions? Email us at contact@sharelynk.app.</p>
     </LegalPage>
   );
 }
