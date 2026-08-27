@@ -70,7 +70,7 @@ export function Navbar() {
           <button
             className="grid h-10 w-10 place-items-center rounded-xl text-white lg:hidden"
             onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "মেসেজ বন্ধ করুন" : "মেনু খুলুন"}
+            aria-label={open ? "মেনু বন্ধ করুন" : "মেনু খুলুন"}
             aria-expanded={open}
           >
             {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}

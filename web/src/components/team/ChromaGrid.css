@@ -16,7 +16,8 @@
   will-change: transform;
 }
 
-.chroma-container:hover .chroma-slider-track {
+.chroma-container:hover .chroma-slider-track,
+.chroma-container:focus-within .chroma-slider-track {
   animation-play-state: paused;
 }
 
@@ -25,7 +26,7 @@
     transform: translateX(0%);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(calc(-50% - 0.75rem));
   }
 }
 
@@ -36,10 +37,6 @@
   display: flex;
   gap: 1.5rem;
   box-sizing: border-box;
-
-  --x: 50%;
-  --y: 50%;
-  --r: 280px;
 }
 
 .chroma-card {
@@ -194,8 +191,36 @@
   font-weight: 500;
 }
 
-/* Remove dark dimming overlay masks so details are 100% bright & clear at all times */
-.chroma-overlay,
-.chroma-fade {
-  display: none !important;
+/* Initials tile shown when a member has no local avatar yet. */
+.chroma-avatar-fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 220px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: linear-gradient(145deg, rgba(15, 76, 255, 0.35), rgba(5, 11, 26, 0.95));
+  color: #e2e8f0;
+  font-size: 3.25rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chroma-slider-track {
+    animation: none;
+  }
+
+  .chroma-container {
+    overflow-x: auto;
+  }
+
+  .chroma-card {
+    transition: none;
+  }
+
+  .chroma-card:hover {
+    transform: none;
+  }
 }

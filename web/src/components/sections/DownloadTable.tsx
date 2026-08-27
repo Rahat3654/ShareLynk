@@ -134,7 +134,7 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
       </div>
 
       {/* 3. Perfectly Aligned Column Catalog Table */}
-      <div className="rounded-[2.5rem] border border-white/10 bg-slate-950/80 shadow-2xl backdrop-blur-2xl overflow-hidden">
+      <div className="rounded-[2.5rem] border border-white/10 bg-slate-950/80 shadow-2xl backdrop-blur-2xl overflow-x-auto">
         <div className="min-w-[880px]">
           {/* Table Header Row */}
           <div className="grid grid-cols-[minmax(280px,2.4fr)_minmax(110px,1fr)_minmax(220px,1.7fr)_minmax(100px,1fr)_minmax(170px,auto)] gap-6 px-8 py-5 text-xs font-semibold uppercase tracking-wider text-slate-400 border-b border-white/10 items-center">
@@ -157,7 +157,7 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.25, delay: i * 0.03 }}
                   className={cn(
-                    "group grid grid-cols-[minmax(280px,2.4fr)_minmax(110px,1fr)_minmax(220px,1.7fr)_minmax(100px,1fr)_minmax(170px,auto)] items-center gap-6 px-8 py-6.5 transition-all duration-300",
+                    "group grid grid-cols-[minmax(280px,2.4fr)_minmax(110px,1fr)_minmax(220px,1.7fr)_minmax(100px,1fr)_minmax(170px,auto)] items-center gap-6 px-8 py-6 transition-all duration-300",
                     "hover:bg-white/[0.04]",
                     isRec && "bg-brand-blue/[0.07]"
                   )}

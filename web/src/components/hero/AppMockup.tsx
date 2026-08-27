@@ -12,7 +12,6 @@ import {
   Lock,
   Pause,
   Play,
-  Share2,
   CheckCircle2,
   Globe
 } from "lucide-react";

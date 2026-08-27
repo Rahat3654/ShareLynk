@@ -184,7 +184,7 @@ const gradients = [
 ];
 
 export const chromaInterns = interns.map((m, idx) => ({
-  image: m.avatar || `https://i.pravatar.cc/300?img=${[12, 33, 47, 68, 59, 25][idx % 6]}`,
+  image: m.avatar,
   title: m.name,
   subtitle: m.role,
   handle: `@${m.name.toLowerCase().split(" ")[0]}`,
@@ -197,7 +197,7 @@ export const chromaInterns = interns.map((m, idx) => ({
 }));
 
 export const chromaAllMembers = allTeamMembers.map((m, idx) => ({
-  image: m.avatar || `https://i.pravatar.cc/300?img=${[8, 11, 3, 12, 33, 47, 68, 59, 25][idx % 9]}`,
+  image: m.avatar,
   title: m.name,
   subtitle: m.role,
   handle: `@${m.name.toLowerCase().split(" ")[0]}`,

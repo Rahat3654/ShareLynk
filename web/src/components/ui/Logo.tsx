@@ -13,7 +13,6 @@ export function Logo({
   href = "/",
 }: {
   className?: string;
-  showWordmark?: boolean;
   size?: number;
   href?: string | null;
 }) {

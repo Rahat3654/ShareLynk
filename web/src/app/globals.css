@@ -115,6 +115,20 @@
     transform: translateX(0%);
   }
   100% {
-    transform: translateX(-50%);
+    /* Two copies joined by `gap-4` (1rem): a flat -50% lands half a gap short
+       and the marquee jumps on every cycle. */
+    transform: translateX(calc(-50% - 0.5rem));
+  }
+}
+
+/* Respect the OS "reduce motion" setting for the long-running decorative loops. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-slide,
+  .animate-float,
+  .animate-spin-slow,
+  .animate-pulse-glow,
+  .animate-gradient-x,
+  .animate-shimmer {
+    animation: none !important;
   }
 }

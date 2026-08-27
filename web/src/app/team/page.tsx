@@ -40,9 +40,6 @@ export default function TeamPage() {
         <section className="w-full pb-12">
           <ChromaGrid
             items={chromaAllMembers}
-            radius={280}
-            damping={0.45}
-            fadeOut={0.6}
             continuousSlide={true}
             slideDuration={38}
           />
