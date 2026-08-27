@@ -28,8 +28,9 @@ export async function apiGet<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${baseUrl()}${path}`, {
     ...init,
     headers: { "Content-Type": "application/json", ...(init?.headers || {}) },
-    // Revalidate the public catalog periodically for freshness.
-    next: { revalidate: 60 },
+    // No incremental cache is wired up on Workers, so a `revalidate` hint here
+    // would be a silent no-op. Fetch fresh and let the page be dynamic.
+    cache: "no-store",
   });
   if (!res.ok) throw new Error(await parseError(res));
   return (await res.json()) as T;

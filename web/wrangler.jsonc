@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sharelynkpublicwebsite",
+  // Produced by `opennextjs-cloudflare build` — do not point this at .next.
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-03-25",
+  // Required by the OpenNext adapter: the Next.js server needs Node APIs.
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  }
+  // Public site URL and the FastAPI origin are set as Worker environment
+  // variables in the Cloudflare dashboard, not here, so they are not committed:
+  //   NEXT_PUBLIC_SITE_URL = https://sharelynk.app
+  //   API_PROXY_TARGET     = https://api.sharelynk.app
+  //   API_INTERNAL_URL     = https://api.sharelynk.app
+  // NEXT_PUBLIC_SITE_URL is read at BUILD time, so it must be set as a build
+  // variable too, not only at runtime.
+}
