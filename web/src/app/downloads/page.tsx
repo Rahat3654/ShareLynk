@@ -9,7 +9,9 @@ export const metadata: Metadata = {
     "Download official ShareLynk apps for Windows, macOS, Android, and Linux.",
 };
 
-export const revalidate = 60;
+// No incremental cache is configured on Workers (see open-next.config.ts),
+// so `revalidate` would silently never fire. Render on every request instead.
+export const dynamic = "force-dynamic";
 
 export default function DownloadsPage() {
   return (
