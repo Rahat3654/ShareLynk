@@ -1,25 +1,31 @@
+"use client";
+
 import * as Icons from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { features } from "@/data/site";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/data/translations";
 
 export function Features() {
+  const { language } = useLanguage();
+  const t = translations[language].features;
+
   return (
     <section id="features" className="section scroll-mt-24">
       <div className="pointer-events-none absolute inset-x-0 top-1/3 -z-10 h-64 bg-grid-glow" />
       <div className="container">
         <SectionHeading
-          eyebrow="ফিচারসমূহ"
+          eyebrow={t.eyebrow}
           title={
             <>
-              স্মার্ট ও নিরাপদ শেয়ারিংয়ের <span className="text-gradient">প্রয়োজনীয় সব সুবিধা</span>
+              {t.titleStart} <span className="text-gradient">{t.titleGradient}</span>
             </>
           }
-          description="নিরাপদ ডিজাইন, সহজ নেভিগেশন ও শক্তিশালী নেটওয়ার্ক কন্ট্রোল নিয়ে তৈরি একটি পূর্ণাঙ্গ ডিজিটাল কানেক্টিভিটি প্ল্যাটফর্ম।"
+          description={t.description}
         />
 
         <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((f, i) => {
+          {t.items.map((f, i) => {
             const Icon = (Icons[f.icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>) ?? Icons.Sparkles;
             return (
               <Reveal key={f.title} delay={i % 4}>

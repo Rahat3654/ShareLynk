@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { HeroVisual } from "@/components/hero/AppMockup";
-import { site, stats } from "@/data/site";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/data/translations";
 
 const container = {
   hidden: {},
@@ -15,6 +16,9 @@ const item = {
 };
 
 export function Hero() {
+  const { language } = useLanguage();
+  const t = translations[language].hero;
+
   return (
     <section id="home" className="relative overflow-hidden pt-32 sm:pt-36">
       {/* Backdrop grid + glow */}
@@ -27,7 +31,7 @@ export function Hero() {
             <motion.div variants={item}>
               <span className="eyebrow">
                 <Sparkles className="h-3.5 w-3.5" />
-                {site.tagline}
+                {t.tagline}
               </span>
             </motion.div>
 
@@ -35,17 +39,17 @@ export function Hero() {
               variants={item}
               className="mt-6 text-balance text-4xl font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl"
             >
-              নিরাপদ ইন্টারনেট শেয়ারিং।{" "}
-              <span className="text-gradient">স্মার্ট কানেক্টিভিটি।</span>
+              {t.titleStart}
+              <span className="text-gradient">{t.titleGradient}</span>
             </motion.h1>
 
             <motion.p variants={item} className="mt-6 max-w-xl text-lg leading-relaxed text-slate-300">
-              ঢাকা বিশ্ববিদ্যালয় থেকে শুরু হওয়া ShareLynk দিয়ে সহজে ইন্টারনেট শেয়ার করুন, নেটওয়ার্ক ম্যানেজ করুন এবং সব কানেকশন পূর্ণ নিয়ন্ত্রণে রাখুন।
+              {t.description}
             </motion.p>
 
             {/* Trust stats */}
             <motion.dl variants={item} className="mt-10 grid max-w-lg grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] sm:grid-cols-4">
-              {stats.map((s) => (
+              {t.stats.map((s) => (
                 <div key={s.label} className="bg-white/[0.02] px-4 py-4 text-center">
                   <dt className="text-xl font-semibold text-white">{s.value}</dt>
                   <dd className="mt-1 text-[11px] uppercase tracking-wide text-slate-400">{s.label}</dd>
@@ -69,12 +73,12 @@ export function Hero() {
       {/* Logo cloud / social proof strip */}
       <div className="container mt-20 sm:mt-24">
         <p className="text-center text-xs uppercase tracking-[0.2em] text-slate-500 font-medium">
-          আধুনিক ও নির্ভরযোগ্য প্রযুক্তিতে তৈরি
+          {t.techTrust}
         </p>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-slate-500">
-          {["Next.js", "TypeScript", "PostgreSQL", "FastAPI", "Docker", "NGINX"].map((t) => (
-            <span key={t} className="text-sm font-medium tracking-wide text-slate-400/80">
-              {t}
+          {["Next.js", "TypeScript", "PostgreSQL", "FastAPI", "Docker", "NGINX"].map((tech) => (
+            <span key={tech} className="text-sm font-medium tracking-wide text-slate-400/80">
+              {tech}
             </span>
           ))}
         </div>

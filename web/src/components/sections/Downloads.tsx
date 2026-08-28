@@ -1,33 +1,42 @@
+"use client";
+
 import { apiGet } from "@/lib/api";
 import type { PlatformDownload } from "@/lib/types";
 import { fallbackDownloads } from "@/data/fallback-downloads";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { DownloadTable } from "./DownloadTable";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/data/translations";
+import { useEffect, useState } from "react";
 
-// Server component: fetches the live download catalog. If the API is
-// unavailable (e.g. before the DB is seeded), it gracefully falls back to a
-// bundled catalog so the page always renders. When admins publish a new
-// version in the dashboard, this section updates automatically — no code change.
-export async function Downloads() {
-  let platforms: PlatformDownload[];
-  try {
-    platforms = await apiGet<PlatformDownload[]>("/downloads");
-    if (!platforms?.length) platforms = fallbackDownloads;
-  } catch {
-    platforms = fallbackDownloads;
-  }
+export function Downloads() {
+  const { language } = useLanguage();
+  const t = translations[language].downloadsPage;
+  const [platforms, setPlatforms] = useState<PlatformDownload[]>(fallbackDownloads);
+
+  useEffect(() => {
+    async function loadPlatforms() {
+      try {
+        const res = await apiGet<PlatformDownload[]>("/downloads");
+        if (res?.length) setPlatforms(res);
+      } catch {
+        setPlatforms(fallbackDownloads);
+      }
+    }
+    loadPlatforms();
+  }, []);
 
   return (
     <section id="downloads" className="section scroll-mt-24">
       <div className="container">
         <SectionHeading
-          eyebrow="ডাউনলোড"
+          eyebrow={t.eyebrow}
           title={
             <>
-              আপনার ডিভাইসের জন্য <span className="text-gradient">ShareLynk অ্যাপ নিন</span>
+              {t.titleStart} <span className="text-gradient">{t.titleGradient}</span>
             </>
           }
-          description="নিচের তালিকা থেকে আপনার অপারেটিং সিস্টেম নির্বাচন করে অফিশিয়াল ভেরিফাইড ইনস্টলারটি সহজে ডাউনলোড করে নিন।"
+          description={t.description}
         />
         <DownloadTable platforms={platforms} />
       </div>

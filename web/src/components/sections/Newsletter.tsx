@@ -3,10 +3,14 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Check, Loader2, ArrowRight } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/data/translations";
 
 export function Newsletter() {
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const { language } = useLanguage();
+  const t = translations[language].newsletter;
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -34,13 +38,13 @@ export function Newsletter() {
 
           <div className="relative mx-auto max-w-2xl">
             <span className="eyebrow">
-              <Mail className="h-3.5 w-3.5" /> নিউজলেটার
+              <Mail className="h-3.5 w-3.5" /> {t.eyebrow}
             </span>
             <h2 className="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              নতুন সব ফিচার ও ভার্সন আপডেট পান
+              {t.title}
             </h2>
             <p className="mt-4 text-lg text-slate-300">
-              নিয়মিত প্রোডাক্ট আপডেট, নতুন প্ল্যাটফর্ম বিল্ড এবং নেটওয়ার্ক টিপস পেতে ইমেইল দিয়ে সাবস্ক্রাইব করে রাখুন।
+              {t.description}
             </p>
 
             <form onSubmit={submit} className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row">
@@ -51,7 +55,7 @@ export function Newsletter() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="আপনার ইমেইল ঠিকানা..."
+                  placeholder={t.placeholder}
                   aria-label="Email address"
                   className="h-13 w-full rounded-full border border-white/15 bg-ink-950/60 py-3.5 pl-12 pr-4 text-white placeholder:text-slate-500 outline-none transition focus:border-brand-cyan/60 focus:ring-2 focus:ring-brand-cyan/30"
                 />
@@ -64,17 +68,17 @@ export function Newsletter() {
                 {state === "loading" ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
                 ) : state === "done" ? (
-                  <><Check className="h-5 w-5" /> যুক্ত হয়েছেন</>
+                  <><Check className="h-5 w-5" /> {t.buttonDone}</>
                 ) : (
-                  <>সাবস্ক্রাইব করুন <ArrowRight className="h-4 w-4" /></>
+                  <>{t.buttonIdle} <ArrowRight className="h-4 w-4" /></>
                 )}
               </motion.button>
             </form>
             {state === "error" && (
-              <p className="mt-3 text-sm text-amber-300">দুঃখিত, কিছু সমস্যা হয়েছে। পুনরায় চেষ্টা করুন।</p>
+              <p className="mt-3 text-sm text-amber-300">{t.errorMsg}</p>
             )}
             {state === "done" && (
-              <p className="mt-3 text-sm text-emerald-300">স্বাগতম! আপনি সফলভাবে সাবস্ক্রাইব করেছেন। 🎉</p>
+              <p className="mt-3 text-sm text-emerald-300">{t.successMsg}</p>
             )}
           </div>
         </div>

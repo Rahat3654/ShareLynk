@@ -91,6 +91,8 @@ const jsonLd = {
   ],
 };
 
+import { LanguageProvider } from "@/context/LanguageContext";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="bn" className={`${inter.variable} ${notoSansBengali.variable} ${anekBangla.variable} dark`} suppressHydrationWarning>
@@ -99,7 +101,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

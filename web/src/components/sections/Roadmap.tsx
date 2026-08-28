@@ -1,40 +1,47 @@
+"use client";
+
 import { CheckCircle2, Loader2, Circle } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { roadmap } from "@/data/site";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/data/translations";
 import { cn } from "@/lib/utils";
 
-const statusMeta: Record<string, { icon: React.ComponentType<{ className?: string }>; color: string; label: string }> = {
-  Shipped: { icon: CheckCircle2, color: "text-emerald-400", label: "সম্পন্ন" },
-  সম্পন্ন: { icon: CheckCircle2, color: "text-emerald-400", label: "সম্পন্ন" },
-  "In Progress": { icon: Loader2, color: "text-brand-cyan", label: "চলমান" },
-  চলমান: { icon: Loader2, color: "text-brand-cyan", label: "চলমান" },
-  Next: { icon: Circle, color: "text-amber-300", label: "পরবর্তী" },
-  পরবর্তী: { icon: Circle, color: "text-amber-300", label: "পরবর্তী" },
-  Planned: { icon: Circle, color: "text-slate-500", label: "পরিকল্পিত" },
-  পরিকল্পিত: { icon: Circle, color: "text-slate-500", label: "পরিকল্পিত" },
+const statusIcons: Record<string, { icon: React.ComponentType<{ className?: string }>; color: string }> = {
+  Shipped: { icon: CheckCircle2, color: "text-emerald-400" },
+  সম্পন্ন: { icon: CheckCircle2, color: "text-emerald-400" },
+  "In Progress": { icon: Loader2, color: "text-brand-cyan" },
+  চলমান: { icon: Loader2, color: "text-brand-cyan" },
+  Next: { icon: Circle, color: "text-amber-300" },
+  পরবর্তী: { icon: Circle, color: "text-amber-300" },
+  Planned: { icon: Circle, color: "text-slate-500" },
+  পরিকল্পিত: { icon: Circle, color: "text-slate-500" },
 };
 
 export function Roadmap() {
+  const { language } = useLanguage();
+  const t = translations[language].roadmap;
+
   return (
     <section id="roadmap" className="section scroll-mt-24">
       <div className="container">
         <SectionHeading
-          eyebrow="রোডম্যাপ"
+          eyebrow={t.eyebrow}
           title={
             <>
-              বিশ্বস্ত নেটওয়ার্ক তৈরির <span className="text-gradient">ভবিষ্যৎ পরিকল্পনা</span>
+              {t.titleStart} <span className="text-gradient">{t.titleGradient}</span>
             </>
           }
-          description="ক্যাম্পাসের আইডিয়া থেকে শুরু করে আধুনিক ডিজিটাল কানেক্টিভিটি প্ল্যাটফর্ম গড়ার স্পষ্ট লক্ষ্যমাত্রাসমূহ।"
+          description={t.description}
         />
 
         <div className="relative mt-16">
           {/* Connecting line */}
           <div className="absolute left-0 right-0 top-6 hidden h-px bg-gradient-to-r from-transparent via-brand-blue/40 to-transparent lg:block" />
           <div className="grid gap-6 lg:grid-cols-4">
-            {roadmap.map((r, i) => {
-              const meta = statusMeta[r.status] ?? statusMeta.Planned;
+            {t.items.map((r, i) => {
+              const meta = statusIcons[r.status] ?? statusIcons.Planned;
+              const isSpinning = r.status === "In Progress" || r.status === "চলমান";
               return (
                 <Reveal key={r.phase} delay={i}>
                   <div className="relative h-full rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition-all hover:-translate-y-1 hover:border-brand-cyan/30">
@@ -43,8 +50,8 @@ export function Roadmap() {
                         {i + 1}
                       </span>
                       <span className={cn("inline-flex items-center gap-1.5 text-xs font-medium", meta.color)}>
-                        <meta.icon className={cn("h-4 w-4", r.status === "In Progress" && "animate-spin-slow")} />
-                        {meta.label}
+                        <meta.icon className={cn("h-4 w-4", isSpinning && "animate-spin-slow")} />
+                        {r.status}
                       </span>
                     </div>
                     <p className="text-xs uppercase tracking-widest text-slate-500">{r.phase}</p>
