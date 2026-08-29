@@ -224,7 +224,7 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
                         )}
                       >
                         {busy === p.id ? <Check className="h-4 w-4" /> : <Download className="h-4 w-4" />}
-                        <span>ডাউনলোড .{p.extension}</span>
+                        <span>{p.extension ? `ডাউনলোড .${p.extension}` : "ডাউনলোড"}</span>
                       </button>
                     )}
                   </div>
