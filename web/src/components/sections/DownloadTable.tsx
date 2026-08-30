@@ -6,6 +6,7 @@ import { Download, Check, Clock, ShieldCheck, Sparkles, Filter } from "lucide-re
 import type { PlatformDownload, OsFamily } from "@/lib/types";
 import { PlatformIcon } from "@/components/ui/PlatformIcon";
 import { formatBytes, formatDate, cn } from "@/lib/utils";
+import type { Dictionary, Locale } from "@/i18n";
 
 function detectOs(): OsFamily | null {
   if (typeof navigator === "undefined") return null;
@@ -25,28 +26,35 @@ const statusStyles: Record<string, string> = {
   DEPRECATED: "bg-slate-400/10 text-slate-400 ring-slate-400/30",
 };
 
-const filterTabs: { id: string; label: string; os?: OsFamily }[] = [
-  { id: "all", label: "সকল প্ল্যাটফর্ম" },
-  { id: "windows", label: "Windows", os: "WINDOWS" },
-  { id: "macos", label: "macOS", os: "MACOS" },
-  { id: "android", label: "Android", os: "ANDROID" },
-  { id: "linux", label: "Linux", os: "LINUX" },
-];
-
-export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) {
+export function DownloadTable({
+  platforms,
+  locale,
+  t,
+}: {
+  platforms: PlatformDownload[];
+  locale: Locale;
+  t: Dictionary;
+}) {
   const userOs = useMemo(detectOs, []);
   const [activeTab, setActiveTab] = useState<string>("all");
   const [busy, setBusy] = useState<string | null>(null);
 
-  // Filter platforms based on active tab
+  const filterTabs: { id: string; label: string; os?: OsFamily }[] = [
+    { id: "all", label: t.downloads.allPlatforms },
+    { id: "windows", label: "Windows", os: "WINDOWS" },
+    { id: "macos", label: "macOS", os: "MACOS" },
+    { id: "android", label: "Android", os: "ANDROID" },
+    { id: "linux", label: "Linux", os: "LINUX" },
+  ];
+
   const filteredPlatforms = useMemo(() => {
     if (activeTab === "all") return platforms;
-    const tab = filterTabs.find((t) => t.id === activeTab);
+    const tab = filterTabs.find((tb) => tb.id === activeTab);
     if (!tab || !tab.os) return platforms;
     return platforms.filter((p) => p.os === tab.os);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [platforms, activeTab]);
 
-  // Find user's recommended platform
   const recommendedPlatform = useMemo(() => {
     if (!userOs) return null;
     return platforms.find((p) => p.os === userOs && !p.isComingSoon && p.latest);
@@ -54,12 +62,16 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
 
   async function handleDownload(p: PlatformDownload) {
     if (!p.latest) return;
+    const target = p.latest.downloadUrl;
     setBusy(p.id);
+    // Open synchronously: doing this after `await` breaks the user-gesture chain
+    // and popup blockers (Safari, Firefox) silently drop the download.
+    const opened = window.open(target, "_blank", "noopener,noreferrer");
     try {
       await fetch(`/api/downloads/${p.latest.id}/track`, { method: "POST" }).catch(() => {});
     } finally {
       setBusy(null);
-      window.open(p.latest.downloadUrl, "_blank", "noopener,noreferrer");
+      if (!opened) window.location.href = target;
     }
   }
 
@@ -73,24 +85,25 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
           className="relative overflow-hidden rounded-[2.5rem] border border-brand-cyan/30 bg-gradient-to-r from-brand-blue/20 via-slate-900/80 to-cyan-950/30 p-8 shadow-2xl backdrop-blur-xl"
         >
           <div className="pointer-events-none absolute -right-12 -top-12 h-64 w-64 rounded-full bg-brand-cyan/10 blur-3xl" />
-          
+
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="space-y-2.5">
               <div className="flex items-center gap-2">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-cyan/15 px-3 py-1 text-xs font-semibold text-brand-cyan border border-brand-cyan/30 whitespace-nowrap">
-                  <Sparkles className="h-3.5 w-3.5" /> আপনার ডিভাইসের জন্য রেকমেন্ডেড
+                  <Sparkles className="h-3.5 w-3.5" /> {t.downloads.recommended}
                 </span>
                 <span className="text-xs font-mono text-slate-400 whitespace-nowrap">
                   {recommendedPlatform.name} ({recommendedPlatform.arch})
                 </span>
               </div>
-              
+
               <h3 className="text-2xl font-bold text-white sm:text-3xl">
-                {recommendedPlatform.name} এর জন্য ShareLynk ডাউনলোড করুন
+                {t.downloads.recommendedTitle} {recommendedPlatform.name}
               </h3>
-              
+
               <p className="text-sm text-slate-300 max-w-xl">
-                অফিশিয়াল সিগনেচার করা রিলিজ (v{recommendedPlatform.latest.version}) • দ্রুত ও এনক্রিপ্টেড Wi-Fi শেয়ারিং প্যাকেজ।
+                {t.downloads.recommendedNote} (v{recommendedPlatform.latest.version}) •{" "}
+                {t.downloads.recommendedNoteTail}
               </p>
             </div>
 
@@ -101,7 +114,9 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
                 className="inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-brand-blue to-brand-cyan px-8 py-4 text-base font-semibold text-white shadow-glow hover:opacity-90 transition-all hover:scale-[1.02] whitespace-nowrap"
               >
                 {busy === recommendedPlatform.id ? <Check className="h-5 w-5" /> : <Download className="h-5 w-5" />}
-                <span>এখনই ডাউনলোড করুন ({formatBytes(recommendedPlatform.latest.fileSizeBytes)})</span>
+                <span>
+                  {t.downloads.downloadNow} ({formatBytes(recommendedPlatform.latest.fileSizeBytes)})
+                </span>
               </button>
             </div>
           </div>
@@ -129,20 +144,20 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
 
         <div className="text-xs font-medium text-slate-400 flex items-center gap-2 whitespace-nowrap px-2">
           <Filter className="h-4 w-4 text-brand-cyan" />
-          মোট {filteredPlatforms.length}টি প্ল্যাটফর্ম বিল্ড
+          {t.downloads.totalBuildsPrefix} {filteredPlatforms.length} {t.downloads.totalBuilds}
         </div>
       </div>
 
-      {/* 3. Perfectly Aligned Column Catalog Table */}
+      {/* 3. Column catalog table — overflow-x-auto so it stays usable on mobile */}
       <div className="rounded-[2.5rem] border border-white/10 bg-slate-950/80 shadow-2xl backdrop-blur-2xl overflow-x-auto">
         <div className="min-w-[880px]">
           {/* Table Header Row */}
           <div className="grid grid-cols-[minmax(280px,2.4fr)_minmax(110px,1fr)_minmax(220px,1.7fr)_minmax(100px,1fr)_minmax(170px,auto)] gap-6 px-8 py-5 text-xs font-semibold uppercase tracking-wider text-slate-400 border-b border-white/10 items-center">
-            <span className="text-left">প্ল্যাটফর্ম</span>
-            <span className="text-left">ভার্সন</span>
-            <span className="text-left">আর্কিটেকচার</span>
-            <span className="text-left">সাইজ</span>
-            <span className="text-right">ডাউনলোড</span>
+            <span className="text-left">{t.downloads.colPlatform}</span>
+            <span className="text-left">{t.downloads.colVersion}</span>
+            <span className="text-left">{t.downloads.colArchitecture}</span>
+            <span className="text-left">{t.downloads.colSize}</span>
+            <span className="text-right">{t.downloads.colDownload}</span>
           </div>
 
           {/* Table Rows */}
@@ -150,6 +165,7 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
             {filteredPlatforms.map((p, i) => {
               const isRec = userOs && p.os === userOs && !p.isComingSoon;
               const rel = p.latest;
+              const unavailable = p.isComingSoon || !rel;
               return (
                 <motion.div
                   key={p.id}
@@ -172,7 +188,7 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
                         <span className="font-bold text-white text-base whitespace-nowrap tracking-tight">{p.name}</span>
                         {isRec && (
                           <span className="whitespace-nowrap rounded-full bg-brand-cyan/20 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand-cyan ring-1 ring-brand-cyan/40">
-                            আপনার ডিভাইস
+                            {t.downloads.yourDevice}
                           </span>
                         )}
                         {rel && (
@@ -182,37 +198,39 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
                         )}
                       </div>
                       <span className="text-xs text-slate-400 mt-1 whitespace-nowrap font-normal">
-                        {p.isComingSoon ? "ডেভেলপমেন্ট চলছে" : `রিলিজ: ${formatDate(rel!.releaseDate)}`}
+                        {unavailable
+                          ? t.downloads.inDevelopment
+                          : `${t.downloads.releasedOn}: ${formatDate(rel!.releaseDate, locale)}`}
                       </span>
                     </div>
                   </div>
 
-                  {/* Version Column — Strictly Aligned Left under VERSION header */}
+                  {/* Version */}
                   <div className="flex items-center text-left">
                     <span className="font-mono text-sm font-semibold text-slate-200 whitespace-nowrap">
-                      {p.isComingSoon ? "—" : `v${rel!.version}`}
+                      {unavailable ? "—" : `v${rel!.version}`}
                     </span>
                   </div>
 
-                  {/* Architecture Column — Strictly Aligned Left under ARCHITECTURE header */}
+                  {/* Architecture */}
                   <div className="flex items-center text-left">
                     <span className="text-xs font-mono text-slate-300 whitespace-nowrap">
-                      {p.isComingSoon ? "—" : rel!.architecture}
+                      {unavailable ? "—" : rel!.architecture}
                     </span>
                   </div>
 
-                  {/* Size Column — Strictly Aligned Left under SIZE header */}
+                  {/* Size */}
                   <div className="flex items-center text-left">
                     <span className="text-sm font-normal text-slate-300 whitespace-nowrap">
-                      {p.isComingSoon ? "—" : formatBytes(rel!.fileSizeBytes)}
+                      {unavailable ? "—" : formatBytes(rel!.fileSizeBytes)}
                     </span>
                   </div>
 
-                  {/* Download Action Column — Strictly Aligned Right */}
+                  {/* Download action */}
                   <div className="flex items-center justify-end text-right">
-                    {p.isComingSoon ? (
+                    {unavailable ? (
                       <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 text-xs font-medium text-slate-400 whitespace-nowrap">
-                        <Clock className="h-4 w-4" /> শীঘ্রই আসছে
+                        <Clock className="h-4 w-4" /> {t.downloads.comingSoon}
                       </span>
                     ) : (
                       <button
@@ -224,7 +242,9 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
                         )}
                       >
                         {busy === p.id ? <Check className="h-4 w-4" /> : <Download className="h-4 w-4" />}
-                        <span>{p.extension ? `ডাউনলোড .${p.extension}` : "ডাউনলোড"}</span>
+                        <span>
+                          {p.extension ? `${t.downloads.download} .${p.extension}` : t.downloads.download}
+                        </span>
                       </button>
                     )}
                   </div>
@@ -239,7 +259,10 @@ export function DownloadTable({ platforms }: { platforms: PlatformDownload[] }) 
       <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-400">
         <div className="flex items-center gap-2.5">
           <ShieldCheck className="h-5 w-5 text-emerald-400 shrink-0" />
-          <span>সবগুলো ইনস্টলার <strong>১০০% ভাইরাস ও মলওয়্যারমুক্ত</strong> এবং ক্রিপ্টোগ্রাফিক সিগনেচারে সুরক্ষিত।</span>
+          <span>
+            {t.downloads.virusFree} <strong>{t.downloads.virusFreeStrong}</strong>{" "}
+            {t.downloads.virusFreeTail}
+          </span>
         </div>
         <div className="flex items-center gap-4 text-slate-500 font-mono text-[11px] whitespace-nowrap">
           <span>E2E ENCRYPTED</span>

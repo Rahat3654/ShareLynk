@@ -4,30 +4,30 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { faqs } from "@/data/site";
+import type { Dictionary } from "@/i18n";
 import { cn } from "@/lib/utils";
 
-export function Faq() {
+export function Faq({ t }: { t: Dictionary }) {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
     <section id="faq" className="section scroll-mt-24">
       <div className="container">
         <SectionHeading
-          eyebrow="প্রশ্নোত্তর (FAQ)"
+          eyebrow={t.faq.eyebrow}
           title={
             <>
-              সাধারণ কিছু <span className="text-gradient">জিজ্ঞাসা ও উত্তর</span>
+              {t.faq.titleA} <span className="text-gradient">{t.faq.titleB}</span>
             </>
           }
-          description="ShareLynk সম্পর্কে আপনার জানার বিষয়সমূহ। প্রয়োজনীয় তথ্য না পেলে নিচের যোগাযোগের ফর্মে মেসেজ দিন।"
+          description={t.faq.description}
         />
 
         <div className="mx-auto mt-14 max-w-3xl divide-y divide-white/10 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]">
-          {faqs.map((f, i) => {
+          {t.faq.items.map((f, i) => {
             const isOpen = open === i;
             return (
-              <div key={i}>
+              <div key={f.q}>
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
                   className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-white/[0.02]"

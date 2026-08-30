@@ -1,26 +1,28 @@
 import * as Icons from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { features } from "@/data/site";
+import type { Dictionary } from "@/i18n";
 
-export function Features() {
+export function Features({ t }: { t: Dictionary }) {
   return (
     <section id="features" className="section scroll-mt-24">
       <div className="pointer-events-none absolute inset-x-0 top-1/3 -z-10 h-64 bg-grid-glow" />
       <div className="container">
         <SectionHeading
-          eyebrow="ফিচারসমূহ"
+          eyebrow={t.features.eyebrow}
           title={
             <>
-              স্মার্ট ও নিরাপদ শেয়ারিংয়ের <span className="text-gradient">প্রয়োজনীয় সব সুবিধা</span>
+              {t.features.titleA} <span className="text-gradient">{t.features.titleB}</span>
             </>
           }
-          description="নিরাপদ ডিজাইন, সহজ নেভিগেশন ও শক্তিশালী নেটওয়ার্ক কন্ট্রোল নিয়ে তৈরি একটি পূর্ণাঙ্গ ডিজিটাল কানেক্টিভিটি প্ল্যাটফর্ম।"
+          description={t.features.description}
         />
 
         <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((f, i) => {
-            const Icon = (Icons[f.icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>) ?? Icons.Sparkles;
+          {t.features.items.map((f, i) => {
+            const Icon =
+              (Icons[f.icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>) ??
+              Icons.Sparkles;
             return (
               <Reveal key={f.title} delay={i % 4}>
                 <div className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand-cyan/30 hover:bg-white/[0.05]">

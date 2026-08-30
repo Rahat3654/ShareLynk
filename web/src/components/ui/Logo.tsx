@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { site } from "@/data/site";
+import { localeHref } from "@/i18n";
+import type { Locale } from "@/i18n";
 
 // ShareLynk wordmark + logo lockup.
 // Replace with official ShareLynk logo — the image asset lives at
@@ -11,10 +13,13 @@ export function Logo({
   className,
   size = 36,
   href = "/",
+  locale,
 }: {
   className?: string;
   size?: number;
   href?: string | null;
+  /** When given, `href` is resolved under this locale. */
+  locale?: Locale;
 }) {
   const content = (
     <span className={cn("group inline-flex items-center", className)}>
@@ -32,8 +37,10 @@ export function Logo({
   );
 
   if (href === null) return content;
+  const target = locale ? localeHref(locale, href) : href;
+
   return (
-    <Link href={href} aria-label="ShareLynk home" className="inline-flex">
+    <Link href={target} aria-label="ShareLynk home" className="inline-flex">
       {content}
     </Link>
   );

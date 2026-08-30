@@ -5,36 +5,37 @@ import { Mail, Phone, MessageSquare, MapPin, Send, Loader2, Check } from "lucide
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { contact } from "@/data/site";
+import type { Dictionary } from "@/i18n";
 
-const cards = [
-  {
-    icon: Mail,
-    title: "ইমেইল করুন",
-    lines: contact.emails,
-    hrefs: contact.emails.map((e) => `mailto:${e}`),
-  },
-  {
-    icon: Phone,
-    title: "ফোন করুন",
-    lines: [contact.phone],
-    hrefs: [`tel:${contact.phone.replace(/\s/g, "")}`],
-  },
-  {
-    icon: MessageSquare,
-    title: "হোয়াটসঅ্যাপ (WhatsApp)",
-    lines: [contact.whatsapp],
-    hrefs: [`https://wa.me/${contact.whatsapp.replace(/[^\d]/g, "")}`],
-  },
-  {
-    icon: MapPin,
-    title: "আমাদের অফিস",
-    lines: [contact.office.line1, contact.office.line2],
-    hrefs: [],
-  },
-];
-
-export function Contact() {
+export function Contact({ t }: { t: Dictionary }) {
   const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
+
+  const cards = [
+    {
+      icon: Mail,
+      title: t.contact.emailCard,
+      lines: contact.emails,
+      hrefs: contact.emails.map((e) => `mailto:${e}`),
+    },
+    {
+      icon: Phone,
+      title: t.contact.phoneCard,
+      lines: [contact.phone],
+      hrefs: [`tel:${contact.phone.replace(/\s/g, "")}`],
+    },
+    {
+      icon: MessageSquare,
+      title: t.contact.whatsappCard,
+      lines: [contact.whatsapp],
+      hrefs: [`https://wa.me/${contact.whatsapp.replace(/[^\d]/g, "")}`],
+    },
+    {
+      icon: MapPin,
+      title: t.contact.officeCard,
+      lines: [t.contact.office.line1, t.contact.office.line2],
+      hrefs: [] as string[],
+    },
+  ];
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -61,13 +62,13 @@ export function Contact() {
     <section id="contact" className="section scroll-mt-24">
       <div className="container">
         <SectionHeading
-          eyebrow="যোগাযোগ"
+          eyebrow={t.contact.eyebrow}
           title={
             <>
-              সরাসরি কথা বলুন <span className="text-gradient">আমাদের টিমের সাথে</span>
+              {t.contact.titleA} <span className="text-gradient">{t.contact.titleB}</span>
             </>
           }
-          description="যেকোনো তথ্য, সহায়তা বা পার্টনারশিপের জন্য নিচের ফর্মে বার্তা পাঠাতে পারেন।"
+          description={t.contact.description}
         />
 
         <div className="mt-16 grid gap-8 lg:grid-cols-2">
@@ -101,21 +102,21 @@ export function Contact() {
             <form onSubmit={submit} className="glass rounded-3xl p-6 sm:p-8">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1.5 block text-sm text-slate-300">আপনার নাম</label>
-                  <input name="name" required placeholder="নাম লিখুন" className={inputCls} />
+                  <label className="mb-1.5 block text-sm text-slate-300">{t.contact.form.name}</label>
+                  <input name="name" required placeholder={t.contact.form.namePlaceholder} className={inputCls} />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-sm text-slate-300">ইমেইল ঠিকানা</label>
-                  <input name="email" type="email" required placeholder="আপনার ইমেইল..." className={inputCls} />
+                  <label className="mb-1.5 block text-sm text-slate-300">{t.contact.form.email}</label>
+                  <input name="email" type="email" required placeholder={t.contact.form.emailPlaceholder} className={inputCls} />
                 </div>
               </div>
               <div className="mt-4">
-                <label className="mb-1.5 block text-sm text-slate-300">বিষয়</label>
-                <input name="subject" placeholder="কী বিষয়ে জানতে চান?" className={inputCls} />
+                <label className="mb-1.5 block text-sm text-slate-300">{t.contact.form.subject}</label>
+                <input name="subject" placeholder={t.contact.form.subjectPlaceholder} className={inputCls} />
               </div>
               <div className="mt-4">
-                <label className="mb-1.5 block text-sm text-slate-300">বার্তা</label>
-                <textarea name="message" required rows={4} placeholder="আপনার বার্তা বিস্তারিত লিখুন..." className={inputCls} />
+                <label className="mb-1.5 block text-sm text-slate-300">{t.contact.form.message}</label>
+                <textarea name="message" required rows={4} placeholder={t.contact.form.messagePlaceholder} className={inputCls} />
               </div>
               <button
                 type="submit"
@@ -125,16 +126,16 @@ export function Contact() {
                 {state === "loading" ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
                 ) : state === "done" ? (
-                  <><Check className="h-5 w-5" /> মেসেজ পাঠানো হয়েছে</>
+                  <><Check className="h-5 w-5" /> {t.contact.form.sent}</>
                 ) : (
-                  <><Send className="h-4 w-4" /> মেসেজ পাঠান</>
+                  <><Send className="h-4 w-4" /> {t.contact.form.submit}</>
                 )}
               </button>
               {state === "done" && (
-                <p className="mt-3 text-center text-sm text-emerald-300">ধন্যবাদ! আপনার মেসেজ আমরা পেয়েছি। খুব দ্রুতই উত্তর দেব।</p>
+                <p className="mt-3 text-center text-sm text-emerald-300">{t.contact.form.success}</p>
               )}
               {state === "error" && (
-                <p className="mt-3 text-center text-sm text-amber-300">মেসেজ পাঠানো সম্ভব হয়নি। অনুগ্রহ করে আবার চেষ্টা করুন।</p>
+                <p className="mt-3 text-center text-sm text-amber-300">{t.contact.form.error}</p>
               )}
             </form>
           </Reveal>
