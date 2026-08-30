@@ -4,6 +4,7 @@ import { fallbackDownloads } from "@/data/fallback-downloads";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { DownloadTable } from "./DownloadTable";
 import { AlertTriangle } from "lucide-react";
+import type { Dictionary, Locale } from "@/i18n";
 
 // Server component: fetches the live download catalog on every request (the
 // page is force-dynamic), so a release published in the admin panel shows up
@@ -13,7 +14,7 @@ import { AlertTriangle } from "lucide-react";
 // backend outage. It used to be swallowed by a bare `catch`, which meant a
 // completely unreachable backend looked identical to a healthy one and the site
 // served stale hardcoded versions for days. It is now logged and flagged.
-export async function Downloads() {
+export async function Downloads({ locale, t }: { locale: Locale; t: Dictionary }) {
   let platforms: PlatformDownload[];
   let staleReason: string | null = null;
 
@@ -33,13 +34,13 @@ export async function Downloads() {
     <section id="downloads" className="section scroll-mt-24">
       <div className="container">
         <SectionHeading
-          eyebrow="ডাউনলোড"
+          eyebrow={t.downloads.eyebrow}
           title={
             <>
-              আপনার ডিভাইসের জন্য <span className="text-gradient">ShareLynk অ্যাপ নিন</span>
+              {t.downloads.titleA} <span className="text-gradient">{t.downloads.titleB}</span>
             </>
           }
-          description="নিচের তালিকা থেকে আপনার অপারেটিং সিস্টেম নির্বাচন করে অফিশিয়াল ভেরিফাইড ইনস্টলারটি সহজে ডাউনলোড করে নিন।"
+          description={t.downloads.description}
         />
 
         {staleReason && (
@@ -49,17 +50,13 @@ export async function Downloads() {
           >
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" />
             <div>
-              <p className="font-semibold">
-                রিলিজ তালিকা সাময়িকভাবে হালনাগাদ করা যায়নি — নিচে সর্বশেষ জানা সংস্করণ দেখানো হচ্ছে।
-              </p>
-              <p className="mt-1 text-amber-200/70">
-                We could not reach the release service, so this list may be out of date.
-              </p>
+              <p className="font-semibold">{t.downloads.staleTitle}</p>
+              <p className="mt-1 text-amber-200/70">{t.downloads.staleBody}</p>
             </div>
           </div>
         )}
 
-        <DownloadTable platforms={platforms} />
+        <DownloadTable platforms={platforms} locale={locale} t={t} />
       </div>
     </section>
   );

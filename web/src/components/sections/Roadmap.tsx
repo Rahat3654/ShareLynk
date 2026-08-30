@@ -1,40 +1,41 @@
 import { CheckCircle2, Loader2, Circle } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { roadmap } from "@/data/site";
+import type { Dictionary } from "@/i18n";
 import { cn } from "@/lib/utils";
 
-const statusMeta: Record<string, { icon: React.ComponentType<{ className?: string }>; color: string; label: string }> = {
-  Shipped: { icon: CheckCircle2, color: "text-emerald-400", label: "সম্পন্ন" },
-  সম্পন্ন: { icon: CheckCircle2, color: "text-emerald-400", label: "সম্পন্ন" },
-  "In Progress": { icon: Loader2, color: "text-brand-cyan", label: "চলমান" },
-  চলমান: { icon: Loader2, color: "text-brand-cyan", label: "চলমান" },
-  Next: { icon: Circle, color: "text-amber-300", label: "পরবর্তী" },
-  পরবর্তী: { icon: Circle, color: "text-amber-300", label: "পরবর্তী" },
-  Planned: { icon: Circle, color: "text-slate-500", label: "পরিকল্পিত" },
-  পরিকল্পিত: { icon: Circle, color: "text-slate-500", label: "পরিকল্পিত" },
+// Keyed by a stable status key, not by the translated label — otherwise the
+// lookup breaks the moment a language is switched.
+const statusMeta = {
+  shipped: { icon: CheckCircle2, color: "text-emerald-400" },
+  inProgress: { icon: Loader2, color: "text-brand-cyan" },
+  next: { icon: Circle, color: "text-amber-300" },
+  planned: { icon: Circle, color: "text-slate-500" },
 };
 
-export function Roadmap() {
+type StatusKey = keyof typeof statusMeta;
+
+export function Roadmap({ t }: { t: Dictionary }) {
   return (
     <section id="roadmap" className="section scroll-mt-24">
       <div className="container">
         <SectionHeading
-          eyebrow="রোডম্যাপ"
+          eyebrow={t.roadmap.eyebrow}
           title={
             <>
-              বিশ্বস্ত নেটওয়ার্ক তৈরির <span className="text-gradient">ভবিষ্যৎ পরিকল্পনা</span>
+              {t.roadmap.titleA} <span className="text-gradient">{t.roadmap.titleB}</span>
             </>
           }
-          description="ক্যাম্পাসের আইডিয়া থেকে শুরু করে আধুনিক ডিজিটাল কানেক্টিভিটি প্ল্যাটফর্ম গড়ার স্পষ্ট লক্ষ্যমাত্রাসমূহ।"
+          description={t.roadmap.description}
         />
 
         <div className="relative mt-16">
           {/* Connecting line */}
           <div className="absolute left-0 right-0 top-6 hidden h-px bg-gradient-to-r from-transparent via-brand-blue/40 to-transparent lg:block" />
           <div className="grid gap-6 lg:grid-cols-4">
-            {roadmap.map((r, i) => {
-              const meta = statusMeta[r.status] ?? statusMeta.Planned;
+            {t.roadmap.items.map((r, i) => {
+              const key = (r.status in statusMeta ? r.status : "planned") as StatusKey;
+              const meta = statusMeta[key];
               return (
                 <Reveal key={r.phase} delay={i}>
                   <div className="relative h-full rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition-all hover:-translate-y-1 hover:border-brand-cyan/30">
@@ -43,8 +44,8 @@ export function Roadmap() {
                         {i + 1}
                       </span>
                       <span className={cn("inline-flex items-center gap-1.5 text-xs font-medium", meta.color)}>
-                        <meta.icon className={cn("h-4 w-4", r.status === "In Progress" && "animate-spin-slow")} />
-                        {meta.label}
+                        <meta.icon className={cn("h-4 w-4", key === "inProgress" && "animate-spin-slow")} />
+                        {t.roadmap.status[key]}
                       </span>
                     </div>
                     <p className="text-xs uppercase tracking-widest text-slate-500">{r.phase}</p>
