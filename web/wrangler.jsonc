@@ -8,7 +8,13 @@
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    // Default is "auto-trailing-slash", which 307s /foo.html -> /foo. That
+    // broke the Google Search Console verification file: Google requests the
+    // exact .html URL and does not follow redirects, so it saw a redirect
+    // instead of the token. Next.js does its own routing here, so the asset
+    // layer should serve paths verbatim.
+    "html_handling": "none"
   },
   "observability": {
     "enabled": true
