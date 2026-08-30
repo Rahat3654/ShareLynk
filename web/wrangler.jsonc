@@ -12,12 +12,26 @@
   },
   "observability": {
     "enabled": true
+  },
+
+  // Runtime environment for the Worker.
+  //
+  // These MUST live here, not in the dashboard. `wrangler deploy` treats this
+  // file as the source of truth for plain-text vars and DELETES any that were
+  // set through the dashboard UI but are absent here — which is exactly what
+  // silently removed them on the previous deploy and left /api/* returning 503.
+  // (Secrets set via `wrangler secret put` survive; plain vars do not.)
+  //
+  // Neither value is sensitive: both are the public origin of the FastAPI
+  // backend. Origin only — no trailing slash and no /api suffix, because the
+  // client appends /api itself.
+  "vars": {
+    "API_INTERNAL_URL": "https://sharelynk-wifi-admin-web-1.onrender.com",
+    "API_PROXY_TARGET": "https://sharelynk-wifi-admin-web-1.onrender.com"
   }
-  // Public site URL and the FastAPI origin are set as Worker environment
-  // variables in the Cloudflare dashboard, not here, so they are not committed:
-  //   NEXT_PUBLIC_SITE_URL = https://sharelynk.app
-  //   API_PROXY_TARGET     = https://api.sharelynk.app
-  //   API_INTERNAL_URL     = https://api.sharelynk.app
-  // NEXT_PUBLIC_SITE_URL is read at BUILD time, so it must be set as a build
-  // variable too, not only at runtime.
+
+  // NEXT_PUBLIC_SITE_URL is deliberately NOT here. NEXT_PUBLIC_* values are
+  // inlined into the bundle at compile time, so it has to be a *build*
+  // variable in the Cloudflare dashboard; a runtime var would do nothing.
+  //   NEXT_PUBLIC_SITE_URL = https://website.sharelynk.app
 }
