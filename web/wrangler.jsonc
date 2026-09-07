@@ -20,6 +20,16 @@
     "enabled": true
   },
 
+  // Hostnames served by this Worker. Declared here rather than only in the
+  // dashboard so the deployed hostnames are reviewable in version control.
+  // sharelynk.app is canonical; website.* is kept so the redirect rule that
+  // sends it to the apex still has a hostname reaching the edge.
+  "routes": [
+    { "pattern": "sharelynk.app", "custom_domain": true },
+    { "pattern": "www.sharelynk.app", "custom_domain": true },
+    { "pattern": "website.sharelynk.app", "custom_domain": true }
+  ],
+
   // Runtime environment for the Worker.
   //
   // These MUST live here, not in the dashboard. `wrangler deploy` treats this
@@ -39,5 +49,9 @@
   // NEXT_PUBLIC_SITE_URL is deliberately NOT here. NEXT_PUBLIC_* values are
   // inlined into the bundle at compile time, so it has to be a *build*
   // variable in the Cloudflare dashboard; a runtime var would do nothing.
-  //   NEXT_PUBLIC_SITE_URL = https://website.sharelynk.app
+  //   NEXT_PUBLIC_SITE_URL = https://sharelynk.app
+  //
+  // If that build variable is left pointing at website.sharelynk.app, it wins
+  // over the fallback in src/data/site.ts and the apex stays unindexable.
+  // Either set it to the apex or delete it and let the fallback apply.
 }
