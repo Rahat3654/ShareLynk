@@ -5,7 +5,12 @@ export const site = {
   domain: "sharelynk.app",
   // Public canonical URL (used for OG/canonical/sitemap). Override per deploy
   // with NEXT_PUBLIC_SITE_URL; falls back to the production domain.
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://website.sharelynk.app",
+  //
+  // This MUST be the apex. It previously fell back to website.sharelynk.app,
+  // which meant every canonical, hreflang, og:url and sitemap entry served from
+  // https://sharelynk.app pointed back at the subdomain — so Google filed the
+  // apex under "Alternate page with proper canonical tag" and never indexed it.
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://sharelynk.app",
   logo: "/assets/logo/sharelynk-logo.png",
 };
 
