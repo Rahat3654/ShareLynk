@@ -28,7 +28,6 @@ export function Footer({ locale, t }: { locale: Locale; t: Dictionary }) {
         { label: t.nav.contact, href: "/#contact" },
         { label: t.nav.team, href: "/team" },
         { label: t.footer.support, href: "mailto:support@sharelynk.app", external: true },
-        { label: "GitHub", href: "https://github.com/sharelynk", external: true },
       ],
     },
     {

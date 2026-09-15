@@ -115,10 +115,13 @@ export default function LocaleLayout({
       "@type": "Place",
       name: "University of Dhaka, Bangladesh",
     },
+    // sameAs is how Google links this site to the same organisation elsewhere,
+    // so a dead profile here weakens entity matching rather than helping it.
+    // github.com/sharelynk returned 404 and was removed; re-add it when the
+    // account exists.
     sameAs: [
       "https://facebook.com/sharelynk",
       "https://linkedin.com/company/sharelynk",
-      "https://github.com/sharelynk",
       "https://x.com/sharelynk",
     ],
   };

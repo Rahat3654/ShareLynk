@@ -1,35 +1,45 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/data/site";
-import { locales } from "@/i18n/config";
+import { defaultLocale, locales } from "@/i18n/config";
 
-// Every page now exists once per locale, so each locale gets its own entries.
-// Without this only one language is discoverable.
+/**
+ * Every page exists once per locale.
+ *
+ * Each entry also carries its translations as `alternates.languages`, which
+ * Next renders as <xhtml:link rel="alternate" hreflang="…"> inside the entry.
+ * The page <head> already declares the same pairs; repeating them here is what
+ * lets Google match /bn and /en as one page in two languages from the sitemap
+ * alone, instead of treating them as two pages competing with each other.
+ *
+ * `x-default` points at the Bengali page because the product is Bengali-first
+ * and that is where `/` sends anyone whose Accept-Language matches neither.
+ *
+ * The owner portal is deliberately absent: /owner is authenticated and
+ * noindex, and listing it would invite Google to crawl a login wall.
+ */
+const PAGES = [
+  { path: "", changeFrequency: "weekly" as const, priority: 1 },
+  { path: "/downloads", changeFrequency: "daily" as const, priority: 0.9 },
+  { path: "/team", changeFrequency: "monthly" as const, priority: 0.6 },
+  { path: "/privacy", changeFrequency: "yearly" as const, priority: 0.3 },
+  { path: "/terms", changeFrequency: "yearly" as const, priority: 0.3 },
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const entries: MetadataRoute.Sitemap = [];
 
-  for (const locale of locales) {
-    entries.push({
-      url: `${site.url}/${locale}`,
+  return locales.flatMap((locale) =>
+    PAGES.map(({ path, changeFrequency, priority }) => ({
+      url: `${site.url}/${locale}${path}`,
       lastModified: now,
-      changeFrequency: "weekly",
-      priority: 1,
-    });
-    entries.push({
-      url: `${site.url}/${locale}/downloads`,
-      lastModified: now,
-      changeFrequency: "daily",
-      priority: 0.9,
-    });
-    entries.push({
-      url: `${site.url}/${locale}/team`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    });
-    entries.push({ url: `${site.url}/${locale}/privacy`, lastModified: now, priority: 0.3 });
-    entries.push({ url: `${site.url}/${locale}/terms`, lastModified: now, priority: 0.3 });
-  }
-
-  return entries;
+      changeFrequency,
+      priority,
+      alternates: {
+        languages: {
+          ...Object.fromEntries(locales.map((l) => [l, `${site.url}/${l}${path}`])),
+          "x-default": `${site.url}/${defaultLocale}${path}`,
+        },
+      },
+    })),
+  );
 }
