@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Downloads } from "@/components/sections/Downloads";
 import { getDictionary } from "@/i18n";
 import { isLocale } from "@/i18n/config";
+import { localeAlternates } from "@/i18n/alternates";
 
 export async function generateMetadata({
   params,
@@ -13,7 +14,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   if (!isLocale(params.locale)) return {};
   const t = getDictionary(params.locale);
-  return { title: t.downloads.pageTitle, description: t.downloads.pageDescription };
+  return {
+    title: t.downloads.pageTitle,
+    description: t.downloads.pageDescription,
+    alternates: localeAlternates(params.locale, "/downloads"),
+  };
 }
 
 // No incremental cache is configured on Workers (see open-next.config.ts), so

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/data/site";
-import { defaultLocale, locales } from "@/i18n/config";
+import { locales } from "@/i18n/config";
+import { localeAlternates } from "@/i18n/alternates";
 
 /**
  * Every page exists once per locale.
@@ -34,12 +35,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency,
       priority,
-      alternates: {
-        languages: {
-          ...Object.fromEntries(locales.map((l) => [l, `${site.url}/${l}${path}`])),
-          "x-default": `${site.url}/${defaultLocale}${path}`,
-        },
-      },
+      // Same helper the pages use for <link rel="canonical"> and hreflang, so
+      // the sitemap and the page head cannot disagree about a URL.
+      alternates: { languages: localeAlternates(locale, path).languages },
     })),
   );
 }

@@ -7,6 +7,7 @@ import { chromaAllMembers } from "@/data/team";
 import { Users } from "lucide-react";
 import { getDictionary } from "@/i18n";
 import { isLocale } from "@/i18n/config";
+import { localeAlternates } from "@/i18n/alternates";
 
 export async function generateMetadata({
   params,
@@ -15,7 +16,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   if (!isLocale(params.locale)) return {};
   const t = getDictionary(params.locale);
-  return { title: t.team.pageTitle, description: t.team.pageDescription };
+  return {
+    title: t.team.pageTitle,
+    description: t.team.pageDescription,
+    alternates: localeAlternates(params.locale, "/team"),
+  };
 }
 
 export default function TeamPage({ params }: { params: { locale: string } }) {

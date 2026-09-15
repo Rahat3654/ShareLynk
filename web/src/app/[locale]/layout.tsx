@@ -5,6 +5,7 @@ import "../globals.css";
 import { site } from "@/data/site";
 import { getDictionary } from "@/i18n";
 import { isLocale, locales, localeTags, type Locale } from "@/i18n/config";
+import { localeAlternates } from "@/i18n/alternates";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -57,14 +58,11 @@ export async function generateMetadata({
     },
     // Tell search engines both languages exist and which is the fallback —
     // without hreflang they treat one locale as a duplicate of the other.
-    alternates: {
-      canonical: `${site.url}/${locale}`,
-      languages: {
-        bn: `${site.url}/bn`,
-        en: `${site.url}/en`,
-        "x-default": `${site.url}/bn`,
-      },
-    },
+    //
+    // This is the homepage's canonical. It is inherited by every page below,
+    // so each of those must override it with its own path — see
+    // localeAlternates().
+    alternates: localeAlternates(locale),
     openGraph: {
       type: "website",
       locale: localeTags[locale].replace("-", "_"),
