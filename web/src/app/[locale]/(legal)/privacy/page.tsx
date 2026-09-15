@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { LegalPage } from "../legal";
 import { getDictionary } from "@/i18n";
 import { isLocale } from "@/i18n/config";
+import { localeAlternates } from "@/i18n/alternates";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({
@@ -10,7 +11,10 @@ export async function generateMetadata({
   params: { locale: string };
 }): Promise<Metadata> {
   if (!isLocale(params.locale)) return {};
-  return { title: getDictionary(params.locale).legal.privacyTitle };
+  return {
+    title: getDictionary(params.locale).legal.privacyTitle,
+    alternates: localeAlternates(params.locale, "/privacy"),
+  };
 }
 
 export default function PrivacyPage({ params }: { params: { locale: string } }) {
