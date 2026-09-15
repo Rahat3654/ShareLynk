@@ -20,6 +20,7 @@ export const en: Dictionary = {
     faq: "FAQ",
     contact: "Contact",
     team: "Team",
+    owner: "Owner",
     docs: "Documentation",
     download: "Download",
     openMenu: "Open menu",
