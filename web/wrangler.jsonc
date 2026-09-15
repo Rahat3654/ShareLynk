@@ -24,11 +24,10 @@
   // dashboard so the deployed hostnames are reviewable in version control.
   // sharelynk.app is canonical; website.* is kept so the redirect rule that
   // sends it to the apex still has a hostname reaching the edge.
-  "routes": [
-    { "pattern": "sharelynk.app", "custom_domain": true },
-    { "pattern": "www.sharelynk.app", "custom_domain": true },
-    { "pattern": "website.sharelynk.app", "custom_domain": true }
-  ],
+"routes": [
+  { "pattern": "sharelynk.app", "custom_domain": true },
+  { "pattern": "website.sharelynk.app", "custom_domain": true }
+],
 
   // Runtime environment for the Worker.
   //
