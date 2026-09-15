@@ -10,6 +10,9 @@ import type { Dictionary } from "@/i18n";
 export function Contact({ t }: { t: Dictionary }) {
   const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
 
+  // Phone and WhatsApp are optional: a card is only built when there is a real
+  // number behind it, so the section never renders a tel:/wa.me link that goes
+  // nowhere. Email and the office address are always present.
   const cards = [
     {
       icon: Mail,
@@ -17,18 +20,22 @@ export function Contact({ t }: { t: Dictionary }) {
       lines: contact.emails,
       hrefs: contact.emails.map((e) => `mailto:${e}`),
     },
-    {
-      icon: Phone,
-      title: t.contact.phoneCard,
-      lines: [contact.phone],
-      hrefs: [`tel:${contact.phone.replace(/\s/g, "")}`],
-    },
-    {
-      icon: MessageSquare,
-      title: t.contact.whatsappCard,
-      lines: [contact.whatsapp],
-      hrefs: [`https://wa.me/${contact.whatsapp.replace(/[^\d]/g, "")}`],
-    },
+    ...(contact.phone
+      ? [{
+          icon: Phone,
+          title: t.contact.phoneCard,
+          lines: [contact.phone],
+          hrefs: [`tel:${contact.phone.replace(/\s/g, "")}`],
+        }]
+      : []),
+    ...(contact.whatsapp
+      ? [{
+          icon: MessageSquare,
+          title: t.contact.whatsappCard,
+          lines: [contact.whatsapp],
+          hrefs: [`https://wa.me/${contact.whatsapp.replace(/[^\d]/g, "")}`],
+        }]
+      : []),
     {
       icon: MapPin,
       title: t.contact.officeCard,
