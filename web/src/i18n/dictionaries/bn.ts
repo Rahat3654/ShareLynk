@@ -18,6 +18,7 @@ export const bn = {
     faq: "প্রশ্নোত্তর",
     contact: "যোগাযোগ",
     team: "টিম",
+    owner: "মালিক",
     docs: "ডকুমেন্টেশন",
     download: "ডাউনলোড",
     openMenu: "মেনু খুলুন",

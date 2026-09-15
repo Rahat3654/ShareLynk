@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Menu, X, Download } from "lucide-react";
+import { Menu, X, Download, UserCog } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 import { Button } from "@/components/ui/Button";
 import { LanguageToggle } from "@/components/ui/LanguageToggle";
@@ -56,6 +56,18 @@ export function Navbar({ locale, t }: { locale: Locale; t: Dictionary }) {
                 {t.nav[item.key]}
               </Link>
             ))}
+            {/*
+              The owner portal lives outside /[locale] (it is an authenticated
+              tool, not translated marketing copy), so it cannot go in the
+              `nav` array above — every entry there is locale-prefixed.
+            */}
+            <Link
+              href="/owner/login"
+              className="ml-1 inline-flex items-center gap-1.5 rounded-full border border-white/10 px-3.5 py-2 text-sm text-slate-300 transition-colors hover:border-white/20 hover:bg-white/[0.05] hover:text-white"
+            >
+              <UserCog className="h-4 w-4" aria-hidden="true" />
+              {t.nav.owner}
+            </Link>
           </div>
 
           <div className="hidden items-center gap-2 lg:flex">
@@ -94,6 +106,14 @@ export function Navbar({ locale, t }: { locale: Locale; t: Dictionary }) {
                   {t.nav[item.key]}
                 </Link>
               ))}
+              <Link
+                href="/owner/login"
+                onClick={() => setOpen(false)}
+                className="mt-1 flex items-center gap-2 rounded-xl border border-white/10 px-4 py-3 text-base text-slate-200 transition-colors hover:bg-white/[0.06] hover:text-white"
+              >
+                <UserCog className="h-4 w-4" aria-hidden="true" />
+                {t.nav.owner}
+              </Link>
               <Button
                 href={localeHref(locale, "/downloads")}
                 size="md"
