@@ -19,8 +19,22 @@ import {
 import { GlobeIllustration } from "./GlobeIllustration";
 import { HeroBackgroundSlider } from "./HeroBackgroundSlider";
 
-export function HeroVisual() {
-  const [activeTab, setActiveTab] = useState<"dashboard" | "globe">("dashboard");
+interface HeroVisualProps {
+  activeTab?: "dashboard" | "globe";
+  onSelectTab?: (tab: "dashboard" | "globe") => void;
+}
+
+export function HeroVisual({ activeTab: externalTab, onSelectTab }: HeroVisualProps = {}) {
+  const [internalTab, setInternalTab] = useState<"dashboard" | "globe">("dashboard");
+  const activeTab = externalTab ?? internalTab;
+
+  const handleTabChange = (tab: "dashboard" | "globe") => {
+    setInternalTab(tab);
+    if (onSelectTab) {
+      onSelectTab(tab);
+    }
+  };
+
   const [sharingActive, setSharingActive] = useState(true);
 
   return (
@@ -40,7 +54,7 @@ export function HeroVisual() {
         </div>
         <div className="flex items-center gap-1 bg-white/[0.04] p-1 rounded-full border border-white/5">
           <button
-            onClick={() => setActiveTab("dashboard")}
+            onClick={() => handleTabChange("dashboard")}
             className={`flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium transition-all ${
               activeTab === "dashboard"
                 ? "bg-gradient-to-r from-brand-blue to-brand-cyan text-white shadow-md"
@@ -51,7 +65,7 @@ export function HeroVisual() {
             অ্যাপ ড্যাশবোর্ড
           </button>
           <button
-            onClick={() => setActiveTab("globe")}
+            onClick={() => handleTabChange("globe")}
             className={`flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium transition-all ${
               activeTab === "globe"
                 ? "bg-gradient-to-r from-brand-blue to-brand-cyan text-white shadow-md"
