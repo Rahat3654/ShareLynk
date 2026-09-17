@@ -1,0 +1,17 @@
+{
+  "variant": "universal",
+  "packageName": "com.sharelynk.app",
+  "versionName": "1.0.0",
+  "versionCode": 3000,
+  "minSdk": 24,
+  "targetSdk": 36,
+  "abis": [
+    "arm64-v8a",
+    "armeabi-v7a",
+    "x86_64"
+  ],
+  "sizeBytes": 62576425,
+  "sha256": "3ff38368893b96195eb26fccc1ce630f0d4f7aa27e50d58e1a0b2974cff87afc",
+  "url": "https://github.com/Rahat3654/ShareLynk_app/releases/download/pilot_beta/app-release.apk",
+  "releasedAt": "2026-08-28"
+}

@@ -21,9 +21,9 @@ export async function generateMetadata({
   };
 }
 
-// No incremental cache is configured on Workers (see open-next.config.ts), so
-// `revalidate` would silently never fire. Render on every request instead —
-// which is also what makes a newly published release appear immediately.
+// Rendered per request so a release published in the admin panel appears on
+// the next page load. The Android download does not wait on the backend for
+// long — see CATALOG_TIMEOUT_MS in Downloads.tsx.
 export const dynamic = "force-dynamic";
 
 export default function DownloadsPage({ params }: { params: { locale: string } }) {
