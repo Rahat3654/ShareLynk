@@ -86,9 +86,9 @@ export const bn = {
       },
       {
         icon: "MonitorSmartphone",
-        title: "ক্রস-প্ল্যাটফর্ম অ্যাপস",
+        title: "Android অ্যাপ",
         description:
-          "Android, Windows, macOS এবং Linux এর জন্য নেটিভ অ্যাপ। এক অ্যাকাউন্টে সব জায়গায় কানেক্টেড।",
+          "Android 10 ও তার নতুন ভার্সনের জন্য নেটিভ অ্যাপ। পাইলটের পরে অন্যান্য প্ল্যাটফর্ম আসবে।",
       },
       {
         icon: "Gauge",
@@ -189,7 +189,7 @@ export const bn = {
       },
       {
         q: "কোন কোন অপারেটিং সিস্টেমে এটি চলবে?",
-        a: "বর্তমানে Android, Windows (x64 & ARM), macOS (Intel & Apple Silicon), এবং Linux (AppImage, .deb, .rpm) সাপোর্ট করে। iOS ও Web অ্যাপ রিলিজের কাজ চলছে।",
+        a: "পাইলট পর্যায়ে ShareLynk Android 10 ও তার নতুন ভার্সনে পাওয়া যাচ্ছে। অন্যান্য প্ল্যাটফর্মের অ্যাপ পাইলটের পরে আসবে।",
       },
       {
         q: "ShareLynk কতটা নিরাপদ?",
@@ -251,14 +251,37 @@ export const bn = {
   downloads: {
     pageTitle: "ডাউনলোড",
     pageDescription:
-      "Windows, macOS, Android ও Linux-এর জন্য অফিশিয়াল ShareLynk অ্যাপ ডাউনলোড করুন।",
+      "Android-এর জন্য অফিশিয়াল ShareLynk অ্যাপ ডাউনলোড করুন। Android 10 বা তার নতুন ভার্সন প্রয়োজন।",
     eyebrow: "ডাউনলোড",
-    titleA: "আপনার ডিভাইসের জন্য",
-    titleB: "ShareLynk অ্যাপ নিন",
+    titleA: "Android-এর জন্য",
+    titleB: "ShareLynk ডাউনলোড করুন",
     description:
-      "নিচের তালিকা থেকে আপনার অপারেটিং সিস্টেম নির্বাচন করে অফিশিয়াল ভেরিফাইড ইনস্টলারটি সহজে ডাউনলোড করে নিন।",
-    staleTitle: "রিলিজ তালিকা সাময়িকভাবে হালনাগাদ করা যায়নি — নিচে সর্বশেষ জানা সংস্করণ দেখানো হচ্ছে।",
-    staleBody: "রিলিজ সার্ভিসে পৌঁছানো যায়নি, তাই এই তালিকা পুরোনো হতে পারে।",
+      "ShareLynk এখন Android পাইলট পর্যায়ে আছে। একটিই APK ফাইল, যা Android 10 থেকে সর্বশেষ Android পর্যন্ত সব ফোনে চলে।",
+    cardTitle: "Android-এর জন্য ShareLynk",
+    requirement: "Android 10 বা নতুন",
+    statusUnknown: "Android 10 বা তার নতুন ভার্সন প্রয়োজন।",
+    statusSupported: "Android {version} শনাক্ত হয়েছে — ইনস্টলের জন্য প্রস্তুত।",
+    statusTooOld:
+      "ShareLynk চালাতে Android 10 বা তার নতুন ভার্সন প্রয়োজন। এই ফোনে Android {version} আছে, তাই অ্যাপটি ইনস্টল হবে না।",
+    statusNotAndroid:
+      "ShareLynk বর্তমানে Android 10 ও তার নতুন ভার্সনের জন্য পাওয়া যাচ্ছে। ডাউনলোড করতে আপনার Android ফোনে এই পেজটি খুলুন।",
+    downloadApk: "APK ডাউনলোড করুন",
+    downloadAnyway: "তবুও ডাউনলোড করুন",
+    downloadFileLink: "APK ফাইলটি ডাউনলোড করুন",
+    version: "ভার্সন",
+    build: "বিল্ড",
+    size: "সাইজ",
+    released: "রিলিজ",
+    checksum: "SHA-256 চেকসাম",
+    installTitle: "যেভাবে ইনস্টল করবেন",
+    installSteps: [
+      "আপনার Android ফোনে APK ফাইলটি ডাউনলোড করুন।",
+      "ডাউনলোড হওয়া ফাইলটি খুলুন। Android অনুমতি চাইলে ব্রাউজারকে অ্যাপ ইনস্টল করার অনুমতি দিন।",
+      "ShareLynk খুলে সাইন ইন করুন।",
+    ],
+    inAppBrowserTip: "Facebook বা Messenger-এর ভেতরে ডাউনলোড শুরু না হলে পেজটি Chrome-এ খুলুন।",
+    pilotNote: "ShareLynk এখন Android পাইলট পর্যায়ে আছে। অন্যান্য প্ল্যাটফর্ম পরে আসবে।",
+    // Multi-platform table — used only when DOWNLOADS_SHOW_ALL_PLATFORMS is on.
     recommended: "আপনার ডিভাইসের জন্য রেকমেন্ডেড",
     recommendedTitle: "এর জন্য ShareLynk ডাউনলোড করুন",
     recommendedNote: "অফিশিয়াল সিগনেচার করা রিলিজ",

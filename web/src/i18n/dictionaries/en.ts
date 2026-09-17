@@ -88,9 +88,9 @@ export const en: Dictionary = {
       },
       {
         icon: "MonitorSmartphone",
-        title: "Cross-platform apps",
+        title: "Android app",
         description:
-          "Native apps for Android, Windows, macOS and Linux. One account, connected everywhere.",
+          "A native app for Android 10 and newer. More platforms will follow after the pilot.",
       },
       {
         icon: "Gauge",
@@ -191,7 +191,7 @@ export const en: Dictionary = {
       },
       {
         q: "Which operating systems does it support?",
-        a: "Android, Windows (x64 and ARM), macOS (Intel and Apple Silicon), and Linux (AppImage, .deb, .rpm). iOS and web apps are in progress.",
+        a: "During the pilot, ShareLynk is available for Android 10 and newer. Apps for other platforms will follow after the pilot.",
       },
       {
         q: "How secure is ShareLynk?",
@@ -253,14 +253,37 @@ export const en: Dictionary = {
   downloads: {
     pageTitle: "Downloads",
     pageDescription:
-      "Download official ShareLynk apps for Windows, macOS, Android and Linux.",
+      "Download the official ShareLynk app for Android. Requires Android 10 or newer.",
     eyebrow: "Downloads",
-    titleA: "Get the ShareLynk app",
-    titleB: "for your device",
+    titleA: "Download ShareLynk",
+    titleB: "for Android",
     description:
-      "Pick your operating system below and download the official, verified installer.",
-    staleTitle: "We couldn't refresh the release list — showing the last known versions below.",
-    staleBody: "We could not reach the release service, so this list may be out of date.",
+      "ShareLynk is in its Android pilot. One APK runs on every phone from Android 10 to the latest release.",
+    cardTitle: "ShareLynk for Android",
+    requirement: "Android 10 and newer",
+    statusUnknown: "Requires Android 10 or newer.",
+    statusSupported: "Android {version} detected — ready to install.",
+    statusTooOld:
+      "ShareLynk requires Android 10 or newer. This phone reports Android {version}, so the app can't be installed on it.",
+    statusNotAndroid:
+      "ShareLynk is currently available for Android 10 and newer. Open this page on your Android phone to download it.",
+    downloadApk: "Download APK",
+    downloadAnyway: "Download anyway",
+    downloadFileLink: "Download the APK file",
+    version: "Version",
+    build: "build",
+    size: "Size",
+    released: "Released",
+    checksum: "SHA-256 checksum",
+    installTitle: "How to install",
+    installSteps: [
+      "Download the APK on your Android phone.",
+      "Open the downloaded file. If Android asks, allow your browser to install apps.",
+      "Open ShareLynk and sign in.",
+    ],
+    inAppBrowserTip: "If the download doesn't start inside Facebook or Messenger, open this page in Chrome.",
+    pilotNote: "ShareLynk is in its Android pilot. Other platforms will follow.",
+    // Multi-platform table — used only when DOWNLOADS_SHOW_ALL_PLATFORMS is on.
     recommended: "Recommended for your device",
     recommendedTitle: "Download ShareLynk for",
     recommendedNote: "Official signed release",

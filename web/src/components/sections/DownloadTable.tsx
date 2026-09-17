@@ -12,10 +12,12 @@ function detectOs(): OsFamily | null {
   if (typeof navigator === "undefined") return null;
   const ua = navigator.userAgent.toLowerCase();
   if (/android/.test(ua)) return "ANDROID";
+  // Before "mac": iPhone and iPad user agents contain "like Mac OS X", and
+  // checking mac first recommended the macOS build to every iPhone.
+  if (/iphone|ipad|ipod/.test(ua)) return "IOS";
   if (/win/.test(ua)) return "WINDOWS";
   if (/mac/.test(ua)) return "MACOS";
   if (/linux/.test(ua)) return "LINUX";
-  if (/iphone|ipad|ipod/.test(ua)) return "IOS";
   return null;
 }
 

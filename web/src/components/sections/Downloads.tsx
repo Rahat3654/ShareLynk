@@ -1,34 +1,40 @@
 import { apiGet } from "@/lib/api";
 import type { PlatformDownload } from "@/lib/types";
-import { fallbackDownloads } from "@/data/fallback-downloads";
+import { androidReleaseFromCatalog, fallbackAndroidRelease } from "@/lib/androidRelease";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { AndroidDownload } from "./AndroidDownload";
 import { DownloadTable } from "./DownloadTable";
-import { AlertTriangle } from "lucide-react";
 import type { Dictionary, Locale } from "@/i18n";
 
-// Server component: fetches the live download catalog on every request (the
-// page is force-dynamic), so a release published in the admin panel shows up
-// immediately — creates, edits and deletes alike.
-//
-// fallback-downloads.ts is a last resort so the page still renders during a
-// backend outage. It used to be swallowed by a bare `catch`, which meant a
-// completely unreachable backend looked identical to a healthy one and the site
-// served stale hardcoded versions for days. It is now logged and flagged.
-export async function Downloads({ locale, t }: { locale: Locale; t: Dictionary }) {
-  let platforms: PlatformDownload[];
-  let staleReason: string | null = null;
+// How long the page waits for the admin catalog before showing the fallback
+// Android release. Short on purpose: Render's free tier can take ~50 s to wake,
+// and the download button must not sit behind that. The catalog is still the
+// source of truth whenever it answers in time.
+const CATALOG_TIMEOUT_MS = 4_000;
 
+// Other platforms from the admin panel are hidden during the Android pilot.
+// Set DOWNLOADS_SHOW_ALL_PLATFORMS=true in the Cloudflare dashboard to show
+// every platform that has a live release in the admin panel — no code change or
+// rebuild needed. Read per request for the same reason backendBase() is.
+function showAllPlatforms(): boolean {
+  return process.env.DOWNLOADS_SHOW_ALL_PLATFORMS === "true";
+}
+
+export async function Downloads({ locale, t }: { locale: Locale; t: Dictionary }) {
+  let platforms: PlatformDownload[] | null = null;
   try {
-    platforms = await apiGet<PlatformDownload[]>("/downloads");
-    if (!platforms?.length) {
-      staleReason = "The backend returned an empty catalog.";
-      platforms = fallbackDownloads;
-    }
+    platforms = await apiGet<PlatformDownload[]>("/downloads", {
+      signal: AbortSignal.timeout(CATALOG_TIMEOUT_MS),
+    });
   } catch (err) {
-    staleReason = err instanceof Error ? err.message : String(err);
-    console.error("[downloads] live catalog unavailable, serving fallback:", err);
-    platforms = fallbackDownloads;
+    // Not an error the visitor needs to see: the fallback below is the real,
+    // current APK. Logged so an outage is still visible in the Worker logs.
+    console.error("[downloads] catalog unavailable, using android-release.json:", err);
   }
+
+  const android = androidReleaseFromCatalog(platforms) ?? fallbackAndroidRelease();
+  const others =
+    showAllPlatforms() && platforms ? platforms.filter((p) => p.os !== "ANDROID") : [];
 
   return (
     <section id="downloads" className="section scroll-mt-24">
@@ -42,21 +48,8 @@ export async function Downloads({ locale, t }: { locale: Locale; t: Dictionary }
           }
           description={t.downloads.description}
         />
-
-        {staleReason && (
-          <div
-            role="status"
-            className="mx-auto mt-8 flex max-w-6xl items-start gap-3 rounded-2xl border border-amber-400/30 bg-amber-400/10 p-4 text-sm text-amber-200"
-          >
-            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" />
-            <div>
-              <p className="font-semibold">{t.downloads.staleTitle}</p>
-              <p className="mt-1 text-amber-200/70">{t.downloads.staleBody}</p>
-            </div>
-          </div>
-        )}
-
-        <DownloadTable platforms={platforms} locale={locale} t={t} />
+        <AndroidDownload release={android} locale={locale} t={t} />
+        {others.length > 0 && <DownloadTable platforms={others} locale={locale} t={t} />}
       </div>
     </section>
   );
