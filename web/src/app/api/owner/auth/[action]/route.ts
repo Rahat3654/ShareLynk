@@ -6,9 +6,9 @@
 // JavaScript.
 //
 // `action` is matched against an explicit allowlist. Without that, the dynamic
-// segment would proxy arbitrary paths under /api/owners/auth/ — including
-// /register, which the website deliberately does not expose (owners are
-// onboarded through the app and admin review).
+// segment would proxy arbitrary paths under /api/owners/auth/ — the Firebase
+// exchange and legacy-migration endpoints included, which the website has no
+// business calling.
 
 import { NextRequest, NextResponse } from "next/server";
 import { backendBase } from "@/lib/api";
@@ -19,6 +19,10 @@ export const dynamic = "force-dynamic";
 
 /** Website action -> backend path under /api/owners/auth. */
 const ACTIONS = {
+  // Creates an UNVERIFIED account and emails a code; no session is issued
+  // until verify-login-otp, which is also where the backend adopts any Wi-Fi
+  // an agent registered under this email.
+  register: "/register",
   login: "/login",
   "verify-login-otp": "/verify-login-otp",
   "resend-login-otp": "/resend-login-otp",
@@ -44,9 +48,13 @@ async function detailOf(res: Response): Promise<string> {
     const body = (await res.clone().json()) as { detail?: unknown };
     if (typeof body?.detail === "string") return body.detail;
     if (Array.isArray(body?.detail)) {
+      // FastAPI validation errors: [{ msg: "Value error, Password must …" }].
+      // Pydantic prefixes custom validator messages with "Value error, ", which
+      // means nothing to someone filling in a form.
       return body.detail
         .map((d) => (d && typeof d === "object" && "msg" in d ? String((d as { msg: unknown }).msg) : String(d)))
-        .join(", ");
+        .map((m) => m.replace(/^Value error,\s*/i, ""))
+        .join(". ");
     }
   } catch {
     /* fall through */

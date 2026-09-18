@@ -108,7 +108,7 @@ export default async function OwnerDashboardPage() {
           <EmptyState
             icon={Wifi}
             title="No Wi-Fi networks yet"
-            message="Networks you add in the ShareLynk app appear here once an admin has reviewed them."
+            message="Wi-Fi a ShareLynk agent registers with your account's email appears here automatically, as do routers you add in the ShareLynk app once they are approved."
           />
         ) : (
           <ul className="grid gap-4 md:grid-cols-2">

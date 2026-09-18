@@ -12,7 +12,7 @@ import type { TokenResponse } from "@/lib/owner/types";
 const LOCALE_COOKIE = "sharelynk-locale";
 
 /** Reachable without a session; everything else under /owner is gated. */
-const OWNER_PUBLIC = ["/owner/login", "/owner/forgot-password"];
+const OWNER_PUBLIC = ["/owner/login", "/owner/register", "/owner/forgot-password"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
