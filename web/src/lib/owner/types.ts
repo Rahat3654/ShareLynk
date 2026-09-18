@@ -35,6 +35,13 @@ export interface OwnerDashboard {
   total_earnings: number;
   available_balance: number;
   pending_withdrawals: number;
+  /**
+   * Recorded Wi-Fi use in hours across all networks (sum of session
+   * durations). Optional: absent from backends older than this field.
+   */
+  total_usage_hours?: number;
+  month_usage_hours?: number;
+  today_usage_hours?: number;
 }
 
 /** GET /api/owners/earnings */
@@ -95,6 +102,8 @@ export interface OwnerRouter {
   connected_users: number;
   monthly_connections: number;
   earnings: number;
+  /** Lifetime hours of recorded use on this network. Optional: older backends omit it. */
+  usage_hours?: number;
   created_at: string;
 }
 

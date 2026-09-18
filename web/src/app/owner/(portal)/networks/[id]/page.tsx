@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Gauge, Signal, Users } from "lucide-react";
+import { ArrowLeft, Clock, Gauge, Signal, Users } from "lucide-react";
 import { Panel } from "@/components/owner/Panel";
 import { StatCard } from "@/components/owner/StatCard";
 import { ErrorState } from "@/components/owner/States";
@@ -9,7 +9,7 @@ import { LiveDot, StatusChip } from "@/components/owner/NetworkStatus";
 import { ConnectionLimitControl } from "@/components/owner/ConnectionLimitControl";
 import { NetworkEnableToggle } from "@/components/owner/NetworkEnableToggle";
 import { OwnerApiError, ownerGet } from "@/lib/owner/server-api";
-import { bdt, count, dateOnly, humanise } from "@/lib/owner/format";
+import { bdt, count, dateOnly, humanise, usageHours } from "@/lib/owner/format";
 import type { OwnerRouter } from "@/lib/owner/types";
 
 export const dynamic = "force-dynamic";
@@ -84,12 +84,18 @@ export default async function OwnerNetworkDetailPage({ params }: { params: { id:
         </div>
       ) : null}
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <StatCard
+          label="Total usage"
+          value={usageHours(router.usage_hours)}
+          icon={Clock}
+          accent="live"
+          hint="hours of Wi-Fi used"
+        />
         <StatCard
           label="Active now"
           value={count(router.connected_users)}
           icon={Users}
-          accent="live"
         />
         <StatCard
           label="This month"

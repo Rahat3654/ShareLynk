@@ -7,7 +7,7 @@ import { ConnectionsChart } from "@/components/owner/ConnectionsChart";
 import { EmptyState, ErrorState } from "@/components/owner/States";
 import { ownerGet, settle } from "@/lib/owner/server-api";
 import { monthlySeries } from "@/lib/owner/series";
-import { bdt, bdtExact, count, hours } from "@/lib/owner/format";
+import { bdt, bdtExact, count, hours, usageHours } from "@/lib/owner/format";
 import type { OwnerAnalytics, OwnerEarnings, OwnerRouter } from "@/lib/owner/types";
 
 export const metadata: Metadata = { title: "Earnings" };
@@ -118,11 +118,12 @@ export default async function OwnerEarningsPage() {
           />
         ) : (
           <div className="-mx-5 overflow-x-auto sm:mx-0">
-            <table className="w-full min-w-[32rem] text-sm">
-              <caption className="sr-only">Lifetime earnings for each of your networks</caption>
+            <table className="w-full min-w-[38rem] text-sm">
+              <caption className="sr-only">Usage hours and lifetime earnings for each of your networks</caption>
               <thead>
                 <tr className="border-b border-white/10 text-left text-xs uppercase tracking-wider text-slate-500">
                   <th scope="col" className="px-5 pb-3 font-medium sm:pl-0">Network</th>
+                  <th scope="col" className="px-5 pb-3 text-right font-medium">Usage</th>
                   <th scope="col" className="px-5 pb-3 text-right font-medium">This month</th>
                   <th scope="col" className="px-5 pb-3 text-right font-medium sm:pr-0">Earned</th>
                 </tr>
@@ -138,6 +139,9 @@ export default async function OwnerEarningsPage() {
                         {router.ssid}
                       </Link>
                     </th>
+                    <td className="px-5 py-3.5 text-right tabular-nums text-slate-200">
+                      {usageHours(router.usage_hours)}
+                    </td>
                     <td className="px-5 py-3.5 text-right tabular-nums text-slate-400">
                       {count(router.monthly_connections)}
                     </td>

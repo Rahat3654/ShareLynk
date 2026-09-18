@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ArrowRight, Gauge, Users } from "lucide-react";
+import { ArrowRight, Clock, Users } from "lucide-react";
 import { LiveDot, StatusChip } from "@/components/owner/NetworkStatus";
-import { bdt, count } from "@/lib/owner/format";
+import { bdt, count, usageHours } from "@/lib/owner/format";
 import type { OwnerRouter } from "@/lib/owner/types";
 
 export function NetworkCard({ router }: { router: OwnerRouter }) {
@@ -32,13 +32,17 @@ export function NetworkCard({ router }: { router: OwnerRouter }) {
           </dd>
           <p className="mt-0.5 text-[11px] text-slate-500">Active</p>
         </div>
+        {/*
+          Usage replaces the separate Limit column: the limit already shows as
+          "active / limit" beside it, and the network page has the full control.
+        */}
         <div>
-          <dt className="sr-only">Connection limit</dt>
+          <dt className="sr-only">Total usage</dt>
           <dd className="flex items-center justify-center gap-1.5 text-sm font-semibold tabular-nums text-white">
-            <Gauge className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
-            {typeof limit === "number" ? limit : "Unlimited"}
+            <Clock className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
+            {usageHours(router.usage_hours)}
           </dd>
-          <p className="mt-0.5 text-[11px] text-slate-500">Limit</p>
+          <p className="mt-0.5 text-[11px] text-slate-500">Used</p>
         </div>
         <div>
           <dt className="sr-only">Earnings</dt>
