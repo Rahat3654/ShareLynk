@@ -39,7 +39,8 @@ export function LanguageToggle({
         className
       )}
     >
-      <Languages className="ml-2 mr-1 h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden="true" />
+      {/* Decorative, and 26px a phone-width navbar cannot spare. */}
+      <Languages className="ml-2 mr-1 hidden h-3.5 w-3.5 shrink-0 text-slate-400 sm:block" aria-hidden="true" />
       {locales.map((l) => (
         <button
           key={l}

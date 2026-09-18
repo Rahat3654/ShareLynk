@@ -22,14 +22,27 @@ export function count(n: number | null | undefined): string {
   return typeof n === "number" && Number.isFinite(n) ? n.toLocaleString("en-US") : "0";
 }
 
-/** 1.5 -> "1h 30m"; under an hour drops to minutes. */
+/** 1.5 -> "1h 30m"; under an hour drops to minutes; 1234.5 -> "1,234h 30m". */
 export function hours(value: number | null | undefined): string {
   const n = typeof value === "number" && Number.isFinite(value) ? value : 0;
   if (n <= 0) return "0h";
-  const whole = Math.floor(n);
-  const mins = Math.round((n - whole) * 60);
+  let whole = Math.floor(n);
+  let mins = Math.round((n - whole) * 60);
+  if (mins === 60) {
+    whole += 1;
+    mins = 0;
+  }
   if (whole === 0) return `${mins}m`;
-  return mins > 0 ? `${whole}h ${mins}m` : `${whole}h`;
+  const h = `${whole.toLocaleString("en-US")}h`;
+  return mins > 0 ? `${h} ${mins}m` : h;
+}
+
+/**
+ * Usage hours where the backend may not report them yet: "—" when the field is
+ * missing, so an absent number is never shown as "0h" of use.
+ */
+export function usageHours(value: number | null | undefined): string {
+  return typeof value === "number" && Number.isFinite(value) ? hours(value) : "—";
 }
 
 /** Backend hour-of-day integer (0-23) as a readable range. */

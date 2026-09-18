@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Banknote, CalendarDays, Users, Wifi } from "lucide-react";
+import { Banknote, Clock, Users, Wifi } from "lucide-react";
 import { StatCard } from "@/components/owner/StatCard";
 import { Panel } from "@/components/owner/Panel";
 import { ConnectionsChart } from "@/components/owner/ConnectionsChart";
@@ -8,7 +8,7 @@ import { NetworkCard } from "@/components/owner/NetworkCard";
 import { EmptyState, ErrorState } from "@/components/owner/States";
 import { ownerGet, settle } from "@/lib/owner/server-api";
 import { dailySeries } from "@/lib/owner/series";
-import { bdt, count } from "@/lib/owner/format";
+import { bdt, count, hours, usageHours } from "@/lib/owner/format";
 import type { OwnerAnalytics, OwnerDashboard, OwnerRouter } from "@/lib/owner/types";
 
 export const metadata: Metadata = { title: "Dashboard" };
@@ -42,24 +42,33 @@ export default async function OwnerDashboardPage() {
         />
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {/*
+            Usage leads: it is the one number every owner can check against
+            what they see in their shop. Recorded session durations, never an
+            estimate — the same figure as the Earnings and Usage pages.
+          */}
+          <StatCard
+            label="Total usage"
+            value={usageHours(summary.data.total_usage_hours)}
+            icon={Clock}
+            accent="live"
+            hint={
+              summary.data.total_usage_hours === undefined
+                ? "Hours of Wi-Fi used on your networks"
+                : `${hours(summary.data.month_usage_hours)} this month · ${hours(summary.data.today_usage_hours)} today`
+            }
+          />
           <StatCard
             label="Total earnings"
             value={bdt(summary.data.total_earnings)}
             icon={Banknote}
             accent="money"
-            hint={`${bdt(summary.data.available_balance)} available`}
-          />
-          <StatCard
-            label="This month"
-            value={bdt(summary.data.monthly_earnings)}
-            icon={CalendarDays}
-            hint={`${count(summary.data.month_connections)} connections`}
+            hint={`${bdt(summary.data.monthly_earnings)} this month · ${bdt(summary.data.available_balance)} available`}
           />
           <StatCard
             label="Active users"
             value={count(summary.data.current_active_connections)}
             icon={Users}
-            accent="live"
             hint={`${count(summary.data.today_connections)} connected today`}
           />
           <StatCard

@@ -11,7 +11,14 @@ export const site = {
   // https://sharelynk.app pointed back at the subdomain — so Google filed the
   // apex under "Alternate page with proper canonical tag" and never indexed it.
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://sharelynk.app",
-  logo: "/assets/logo/sharelynk-logo.png",
+  // The ShareLynk mark, taken from the Flutter app (assets/icon/icon_master.png)
+  // with its white background removed. The wordmark beside it is text, exactly
+  // as the app draws it (ShareLynkWordmark): "Share" + "Lynk" in #4C8DFF.
+  logo: "/brand/sharelynk-mark.png",
+  // Square, crawlable logo for search engines (Organization structured data).
+  searchLogo: "/brand/sharelynk-logo-512.png",
+  // Social / search preview, exactly 1200x630.
+  ogImage: "/brand/og-image.png",
 };
 
 /** Nav entries. `key` indexes into dict.nav; hrefs are locale-prefixed at render. */

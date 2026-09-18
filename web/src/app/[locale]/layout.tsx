@@ -52,10 +52,6 @@ export async function generateMetadata({
     ],
     authors: [{ name: "ShareLynk" }],
     creator: "ShareLynk",
-    icons: {
-      icon: "/assets/logo/sharelynk-logo.png",
-      apple: "/assets/logo/sharelynk-logo.png",
-    },
     // Tell search engines both languages exist and which is the fallback —
     // without hreflang they treat one locale as a duplicate of the other.
     //
@@ -70,13 +66,13 @@ export async function generateMetadata({
       siteName: site.name,
       title: t.meta.homeTitle,
       description: t.meta.description,
-      images: [{ url: "/assets/logo/sharelynk-logo.png", width: 1200, height: 630, alt: "ShareLynk" }],
+      images: [{ url: site.ogImage, width: 1200, height: 630, alt: "ShareLynk — secure Wi-Fi sharing" }],
     },
     twitter: {
       card: "summary_large_image",
       title: t.meta.homeTitle,
       description: t.meta.description,
-      images: ["/assets/logo/sharelynk-logo.png"],
+      images: [site.ogImage],
       creator: "@sharelynk",
     },
     robots: { index: true, follow: true },
@@ -101,12 +97,21 @@ export default function LocaleLayout({
   const locale: Locale = params.locale;
   const t = getDictionary(locale);
 
-  const jsonLd = {
+  // Organization tells Google which logo belongs to the brand (a square image
+  // of at least 112px on a crawlable URL); WebSite tells it the site's name.
+  // Neither guarantees Google shows them — they make the site eligible.
+  const organization = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${site.url}/#organization`,
     name: site.name,
     url: site.url,
-    logo: `${site.url}/assets/logo/sharelynk-logo.png`,
+    logo: {
+      "@type": "ImageObject",
+      url: `${site.url}${site.searchLogo}`,
+      width: 512,
+      height: 512,
+    },
     description: t.meta.description,
     slogan: t.meta.tagline,
     foundingLocation: {
@@ -124,6 +129,16 @@ export default function LocaleLayout({
     ],
   };
 
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${site.url}/#website`,
+    name: site.name,
+    url: site.url,
+    inLanguage: localeTags[locale],
+    publisher: { "@id": `${site.url}/#organization` },
+  };
+
   return (
     <html
       lang={localeTags[locale]}
@@ -133,7 +148,7 @@ export default function LocaleLayout({
       <body className="min-h-screen font-sans antialiased" data-locale={locale}>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([organization, website]) }}
         />
         {children}
       </body>
