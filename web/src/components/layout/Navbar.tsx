@@ -44,7 +44,8 @@ export function Navbar({ locale, t }: { locale: Locale; t: Dictionary }) {
             scrolled ? "glass-strong h-14 shadow-glow-sm" : "h-16 border border-transparent"
           )}
         >
-          <Logo locale={locale} />
+          {/* Smaller on phones so the language toggle and menu button still fit. */}
+          <Logo locale={locale} className="text-[17px] sm:text-[21px]" />
 
           <div className="hidden items-center gap-1 lg:flex">
             {nav.map((item) => (
