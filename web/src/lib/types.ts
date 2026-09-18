@@ -20,6 +20,9 @@ export interface Release {
   downloadCount: number;
 }
 
+/** "user" = the consumer ShareLynk app; "agent" = the field-agent app. */
+export type ReleaseApp = "user" | "agent";
+
 export interface PlatformDownload {
   id: string;
   slug: string;
@@ -30,6 +33,12 @@ export interface PlatformDownload {
   extension: string;
   isComingSoon: boolean;
   sortOrder: number;
+  /**
+   * Which ShareLynk app this platform ships, set in the admin panel. Absent
+   * from backends that predate the field, which is why callers go through
+   * platformApp() instead of reading it directly.
+   */
+  app?: ReleaseApp;
   latest: Release | null;
   releases: Release[];
 }
@@ -54,4 +63,9 @@ export interface ApiEnvelope<T> {
   success: boolean;
   data?: T;
   error?: { message: string; details?: unknown };
+}
+
+/** A platform's app, treating a missing value as the consumer app. */
+export function platformApp(p: Pick<PlatformDownload, "app">): ReleaseApp {
+  return p.app === "agent" ? "agent" : "user";
 }

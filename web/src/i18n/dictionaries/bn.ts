@@ -281,6 +281,12 @@ export const bn = {
     ],
     inAppBrowserTip: "Facebook বা Messenger-এর ভেতরে ডাউনলোড শুরু না হলে পেজটি Chrome-এ খুলুন।",
     pilotNote: "ShareLynk এখন Android পাইলট পর্যায়ে আছে। অন্যান্য প্ল্যাটফর্ম পরে আসবে।",
+    // ফিল্ড এজেন্ট অ্যাপ অংশ।
+    agentTitle: "শেয়ারলিংক এজেন্ট অ্যাপ",
+    agentDescription:
+      "নিবন্ধিত শেয়ারলিংক ফিল্ড এজেন্টদের জন্য, যারা দোকান মালিকদের পক্ষ থেকে ওয়াইফাই নেটওয়ার্ক যুক্ত করেন। শেয়ারলিংক টিমের অনুমোদিত এজেন্ট অ্যাকাউন্ট দিয়ে সাইন ইন করুন।",
+    agentDownload: "এজেন্ট অ্যাপ ডাউনলোড করুন",
+    previousVersions: "আগের সংস্করণ",
     // Multi-platform table — used only when DOWNLOADS_SHOW_ALL_PLATFORMS is on.
     recommended: "আপনার ডিভাইসের জন্য রেকমেন্ডেড",
     recommendedTitle: "এর জন্য ShareLynk ডাউনলোড করুন",
