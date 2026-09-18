@@ -44,14 +44,32 @@ export default function OwnerLoginPage({
 
         <div className="glass rounded-3xl p-6 shadow-card sm:p-8">
           <OwnerLoginForm next={safeNext(searchParams?.next)} />
+
+          <div className="mt-6 border-t border-white/10 pt-6 text-center">
+            <p className="text-sm text-slate-400">Don&apos;t have an Owner account?</p>
+            <Link
+              href="/owner/register"
+              className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-white/15 bg-white/[0.04] px-5 py-3 text-sm font-medium text-white transition-colors hover:border-brand-cyan/40 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan/60"
+            >
+              Register as Owner
+            </Link>
+          </div>
         </div>
 
-        <p className="mt-6 text-center text-xs text-slate-500">
-          Owner accounts are created in the ShareLynk app.{" "}
-          <Link href="/" className="text-cyan-300 underline-offset-4 hover:underline">
-            Back to sharelynk.app
+        {/*
+          The website has no consumer sign-in: people who connect to Wi-Fi use
+          the app. "Continue as User" therefore leads to the download, rather
+          than to a login form that does not exist.
+        */}
+        <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-center text-sm">
+          <p className="text-slate-400">Just want to get online with ShareLynk?</p>
+          <Link
+            href="/downloads"
+            className="mt-1 inline-block font-medium text-cyan-300 underline-offset-4 hover:underline"
+          >
+            Continue as User — get the app
           </Link>
-        </p>
+        </div>
       </div>
     </main>
   );

@@ -1,5 +1,5 @@
 import staticRelease from "@/data/android-release.json";
-import type { PlatformDownload } from "@/lib/types";
+import { platformApp, type PlatformDownload } from "@/lib/types";
 
 // What the Android download card shows, whichever source it came from.
 //
@@ -34,11 +34,20 @@ export function fallbackAndroidRelease(): AndroidReleaseView {
   };
 }
 
-/** The Android release the admin panel marks live, or null if there is none. */
+/** The consumer app's live Android release, or null if there is none.
+ *
+ * Only platforms the admin panel marks as the USER app qualify. This used to
+ * take the first ANDROID platform of any kind, so when the field-agent app was
+ * added as a second Android platform — same sort order, and "Agent app" sorts
+ * before "ShareLynk…" — this card silently started handing the public the agent
+ * app while the consumer app vanished from the page.
+ */
 export function androidReleaseFromCatalog(
   platforms: PlatformDownload[] | null
 ): AndroidReleaseView | null {
-  const platform = platforms?.find((p) => p.os === "ANDROID" && !p.isComingSoon && p.latest);
+  const platform = platforms?.find(
+    (p) => p.os === "ANDROID" && platformApp(p) === "user" && !p.isComingSoon && p.latest
+  );
   const rel = platform?.latest;
   if (!rel || !rel.downloadUrl?.startsWith("https://")) return null;
 

@@ -283,6 +283,12 @@ export const en: Dictionary = {
     ],
     inAppBrowserTip: "If the download doesn't start inside Facebook or Messenger, open this page in Chrome.",
     pilotNote: "ShareLynk is in its Android pilot. Other platforms will follow.",
+    // Field-agent app section.
+    agentTitle: "ShareLynk Agent app",
+    agentDescription:
+      "For registered ShareLynk field agents who add Wi-Fi networks on behalf of shop owners. Sign in with the agent account the ShareLynk team approved.",
+    agentDownload: "Download Agent app",
+    previousVersions: "Previous versions",
     // Multi-platform table — used only when DOWNLOADS_SHOW_ALL_PLATFORMS is on.
     recommended: "Recommended for your device",
     recommendedTitle: "Download ShareLynk for",

@@ -1,7 +1,8 @@
 import { apiGet } from "@/lib/api";
-import type { PlatformDownload } from "@/lib/types";
+import { platformApp, type PlatformDownload } from "@/lib/types";
 import { androidReleaseFromCatalog, fallbackAndroidRelease } from "@/lib/androidRelease";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { AgentAppDownload } from "./AgentAppDownload";
 import { AndroidDownload } from "./AndroidDownload";
 import { DownloadTable } from "./DownloadTable";
 import type { Dictionary, Locale } from "@/i18n";
@@ -33,8 +34,18 @@ export async function Downloads({ locale, t }: { locale: Locale; t: Dictionary }
   }
 
   const android = androidReleaseFromCatalog(platforms) ?? fallbackAndroidRelease();
+
+  // The field-agent app is listed separately from the consumer app, always —
+  // it is not part of the Android-only pilot gate below. Keyed on the `app`
+  // the admin panel sets, never on the platform's name.
+  const agentPlatforms = (platforms ?? []).filter(
+    (p) => platformApp(p) === "agent" && !p.isComingSoon && p.latest?.downloadUrl?.startsWith("https://")
+  );
+
   const others =
-    showAllPlatforms() && platforms ? platforms.filter((p) => p.os !== "ANDROID") : [];
+    showAllPlatforms() && platforms
+      ? platforms.filter((p) => p.os !== "ANDROID" && platformApp(p) === "user")
+      : [];
 
   return (
     <section id="downloads" className="section scroll-mt-24">
@@ -49,6 +60,7 @@ export async function Downloads({ locale, t }: { locale: Locale; t: Dictionary }
           description={t.downloads.description}
         />
         <AndroidDownload release={android} locale={locale} t={t} />
+        <AgentAppDownload platforms={agentPlatforms} locale={locale} t={t} />
         {others.length > 0 && <DownloadTable platforms={others} locale={locale} t={t} />}
       </div>
     </section>
