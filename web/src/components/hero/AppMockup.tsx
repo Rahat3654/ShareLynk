@@ -15,12 +15,25 @@ import {
   CheckCircle2,
   Globe,
 } from "lucide-react";
-import { GlobeIllustration } from "./GlobeIllustration";
 import { HeroBackgroundSlider } from "./HeroBackgroundSlider";
 import type { Dictionary } from "@/i18n";
 
-export function HeroVisual({ t }: { t: Dictionary }) {
-  const [activeTab, setActiveTab] = useState<"dashboard" | "globe">("dashboard");
+export type HeroTab = "dashboard" | "globe";
+
+/**
+ * The mockup and its tab switcher. The active tab is owned by the Hero, because
+ * "Global network" replaces the whole hero with the full-width poster rather
+ * than swapping something inside this column.
+ */
+export function HeroVisual({
+  t,
+  activeTab,
+  onSelectTab,
+}: {
+  t: Dictionary;
+  activeTab: HeroTab;
+  onSelectTab: (tab: HeroTab) => void;
+}) {
   const [sharingActive, setSharingActive] = useState(true);
 
   return (
@@ -40,7 +53,8 @@ export function HeroVisual({ t }: { t: Dictionary }) {
         </div>
         <div className="flex items-center gap-1 bg-white/[0.04] p-1 rounded-full border border-white/5">
           <button
-            onClick={() => setActiveTab("dashboard")}
+            onClick={() => onSelectTab("dashboard")}
+            aria-pressed={activeTab === "dashboard"}
             className={`flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium transition-all ${
               activeTab === "dashboard"
                 ? "bg-gradient-to-r from-brand-blue to-brand-cyan text-white shadow-md"
@@ -51,7 +65,8 @@ export function HeroVisual({ t }: { t: Dictionary }) {
             {t.mockup.dashboard}
           </button>
           <button
-            onClick={() => setActiveTab("globe")}
+            onClick={() => onSelectTab("globe")}
+            aria-pressed={activeTab === "globe"}
             className={`flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium transition-all ${
               activeTab === "globe"
                 ? "bg-gradient-to-r from-brand-blue to-brand-cyan text-white shadow-md"
@@ -64,10 +79,8 @@ export function HeroVisual({ t }: { t: Dictionary }) {
         </div>
       </div>
 
-      {activeTab === "globe" ? (
-        <GlobeIllustration />
-      ) : (
-        /* App Dashboard Mockup */
+      {/* App Dashboard Mockup — while "Global network" is active the Hero shows
+          the poster instead of this column, so this is always the dashboard. */}
         <div className="relative rounded-2xl border border-white/15 bg-slate-950/80 p-1 shadow-2xl backdrop-blur-2xl transition-all duration-500">
           {/* Window Header / Titlebar */}
           <div className="flex items-center justify-between border-b border-white/10 px-4 py-3 bg-white/[0.02] rounded-t-xl">
@@ -216,7 +229,6 @@ export function HeroVisual({ t }: { t: Dictionary }) {
             </div>
           </div>
         </div>
-      )}
 
       {/* Floating badge over mockup */}
       <div className="absolute -bottom-4 -left-4 hidden animate-float rounded-xl border border-white/10 bg-slate-900/90 p-3 shadow-xl backdrop-blur-xl sm:flex items-center gap-3">
