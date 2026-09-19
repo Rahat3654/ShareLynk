@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Sparkles, X } from "lucide-react";
 import { HeroVisual, type HeroTab } from "@/components/hero/AppMockup";
 import type { Dictionary } from "@/i18n";
 
-// How long the "Global network" poster stays up before the hero returns to the
-// app preview on its own. Paused while the poster is hovered or focused.
-const POSTER_MS = 5_000;
+// The hero alternates between the app dashboard and the "Global network"
+// poster, each for this long (including its half-second fade), on a loop.
+// Paused while either is hovered or focused, and off for reduced motion.
+const SLIDE_MS = 4_000;
 
 const container = {
   hidden: {},
@@ -22,18 +23,29 @@ const item = {
 
 export function Hero({ t }: { t: Dictionary }) {
   const [activeTab, setActiveTab] = useState<HeroTab>("dashboard");
-  // Hover or keyboard focus on the poster holds it open, so it can be read.
+  // Hover or keyboard focus on either view holds it, so it can be read or used.
   const [held, setHeld] = useState(false);
+  const reduceMotion = useReducedMotion();
+  const hold = {
+    onMouseEnter: () => setHeld(true),
+    onMouseLeave: () => setHeld(false),
+    onFocus: () => setHeld(true),
+    onBlur: () => setHeld(false),
+  };
   const back = () => {
     setHeld(false);
     setActiveTab("dashboard");
   };
 
+  // Keyed on activeTab, so choosing a tab by hand restarts the full interval.
   useEffect(() => {
-    if (activeTab !== "globe" || held) return;
-    const id = setTimeout(() => setActiveTab("dashboard"), POSTER_MS);
+    if (held || reduceMotion) return;
+    const id = setTimeout(
+      () => setActiveTab((tab) => (tab === "globe" ? "dashboard" : "globe")),
+      SLIDE_MS,
+    );
     return () => clearTimeout(id);
-  }, [activeTab, held]);
+  }, [activeTab, held, reduceMotion]);
 
   useEffect(() => {
     if (activeTab !== "globe") return;
@@ -64,8 +76,7 @@ export function Hero({ t }: { t: Dictionary }) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="relative -mt-32 w-full sm:-mt-36"
-            onMouseEnter={() => setHeld(true)}
-            onMouseLeave={() => setHeld(false)}
+            {...hold}
           >
             {/* Keeps the navbar legible over the top of the image. */}
             <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-36 bg-gradient-to-b from-slate-950/70 via-slate-950/20 to-transparent" />
@@ -76,7 +87,7 @@ export function Hero({ t }: { t: Dictionary }) {
                 width={1024}
                 height={576}
                 sizes="100vw"
-                // Mounts only when the visitor asks for it, so fetch right away.
+                // Mounts only when it comes round, so fetch right away.
                 loading="eager"
                 className="block h-auto w-full"
               />
@@ -85,8 +96,6 @@ export function Hero({ t }: { t: Dictionary }) {
               <button
                 type="button"
                 onClick={back}
-                onFocus={() => setHeld(true)}
-                onBlur={() => setHeld(false)}
                 aria-label={t.hero.posterBack}
                 className="group absolute inset-0 z-20 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-brand-cyan/70"
               >
@@ -107,6 +116,7 @@ export function Hero({ t }: { t: Dictionary }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
+            {...hold}
           >
           <div className="container">
             <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-8">
