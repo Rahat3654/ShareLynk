@@ -34,6 +34,10 @@ export const en: Dictionary = {
     subtitle:
       "Born at the University of Dhaka, ShareLynk lets you share internet easily, manage your network, and keep every connection fully under your control.",
     builtWith: "Built on modern, dependable technology",
+    // Full-width poster shown by the mockup's "Global network" tab.
+    posterAlt:
+      "ShareLynk poster: Earn from your Wi-Fi. Share your shop's Wi-Fi, customers connect, and you earn.",
+    posterBack: "Back to the app preview",
   },
 
   stats: [
