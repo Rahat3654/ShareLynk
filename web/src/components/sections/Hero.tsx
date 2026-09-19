@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FocusEvent } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Sparkles, X } from "lucide-react";
 import { HeroVisual, type HeroTab } from "@/components/hero/AppMockup";
 import type { Dictionary } from "@/i18n";
 
-// How long the "Global network" poster stays up before the hero returns to the
-// app preview on its own. Paused while the poster is hovered or focused.
-const POSTER_MS = 5_000;
+// The hero alternates between the app dashboard and the "Global network"
+// poster on a loop, each shown for this long (including its fade).
+const SLIDE_MS = 4_000;
 
 const container = {
   hidden: {},
@@ -22,26 +22,42 @@ const item = {
 
 export function Hero({ t }: { t: Dictionary }) {
   const [activeTab, setActiveTab] = useState<HeroTab>("dashboard");
-  // Hover or keyboard focus on the poster holds it open, so it can be read.
+  const reduceMotion = useReducedMotion();
+  // Keyboard focus inside the hero holds the current view so it can be read and
+  // operated. Deliberately NOT hover, and not a mouse or touch focus: the poster
+  // fills the hero, so a resting cursor held it forever, and on phones a tap
+  // leaves an emulated mouseenter (and a focused button) that never clears --
+  // both stopped the rotation for good.
   const [held, setHeld] = useState(false);
-  const back = () => {
-    setHeld(false);
-    setActiveTab("dashboard");
+  const hold = {
+    onFocus: (e: FocusEvent<HTMLElement>) => {
+      if (isKeyboardFocus(e.target)) setHeld(true);
+    },
+    onBlur: () => setHeld(false),
   };
+  const back = () => setActiveTab("dashboard");
 
+  // Every switch, automatic or by hand, releases the hold: the focused element
+  // has usually just unmounted, and React sends no blur for that.
   useEffect(() => {
-    if (activeTab !== "globe" || held) return;
-    const id = setTimeout(() => setActiveTab("dashboard"), POSTER_MS);
+    setHeld(false);
+  }, [activeTab]);
+
+  // One timer drives the loop in both directions. Keyed on activeTab, so a
+  // manual click restarts the full interval and the rotation carries on.
+  useEffect(() => {
+    if (held || reduceMotion) return;
+    const id = setTimeout(
+      () => setActiveTab((tab) => (tab === "globe" ? "dashboard" : "globe")),
+      SLIDE_MS,
+    );
     return () => clearTimeout(id);
-  }, [activeTab, held]);
+  }, [activeTab, held, reduceMotion]);
 
   useEffect(() => {
     if (activeTab !== "globe") return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setHeld(false);
-        setActiveTab("dashboard");
-      }
+      if (e.key === "Escape") setActiveTab("dashboard");
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -64,8 +80,7 @@ export function Hero({ t }: { t: Dictionary }) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="relative -mt-32 w-full sm:-mt-36"
-            onMouseEnter={() => setHeld(true)}
-            onMouseLeave={() => setHeld(false)}
+            {...hold}
           >
             {/* Keeps the navbar legible over the top of the image. */}
             <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-36 bg-gradient-to-b from-slate-950/70 via-slate-950/20 to-transparent" />
@@ -76,7 +91,7 @@ export function Hero({ t }: { t: Dictionary }) {
                 width={1024}
                 height={576}
                 sizes="100vw"
-                // Mounts only when the visitor asks for it, so fetch right away.
+                // Mounts only when its turn comes, so fetch right away.
                 loading="eager"
                 className="block h-auto w-full"
               />
@@ -85,8 +100,6 @@ export function Hero({ t }: { t: Dictionary }) {
               <button
                 type="button"
                 onClick={back}
-                onFocus={() => setHeld(true)}
-                onBlur={() => setHeld(false)}
                 aria-label={t.hero.posterBack}
                 className="group absolute inset-0 z-20 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-brand-cyan/70"
               >
@@ -107,6 +120,7 @@ export function Hero({ t }: { t: Dictionary }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
+            {...hold}
           >
           <div className="container">
             <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-8">
@@ -171,4 +185,14 @@ export function Hero({ t }: { t: Dictionary }) {
       </div>
     </section>
   );
+}
+
+/** Focus that came from the keyboard, not from a click or a tap. */
+function isKeyboardFocus(el: EventTarget): boolean {
+  try {
+    return el instanceof Element && el.matches(":focus-visible");
+  } catch {
+    // A browser without :focus-visible: never hold, so the loop keeps running.
+    return false;
+  }
 }
